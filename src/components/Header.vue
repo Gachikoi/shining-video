@@ -6,8 +6,8 @@
         <h2 class="hidden md:block text-xl">Shining ACG Video Studio</h2>
       </div>
       <div class="hidden md:flex pl-5">
-        <img class="w-20" src="../assests/images/社徽镂空无字.png" alt="">
-        <img class="w-20" src="../assests/images/视频组镂空无字.png" alt="">
+        <img class="w-20" src="../assets/images/社徽镂空无字.png" alt="">
+        <img class="w-20" src="../assets/images/视频组镂空无字.png" alt="">
       </div>
     </div>
   </div>

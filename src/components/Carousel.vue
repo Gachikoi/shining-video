@@ -24,34 +24,17 @@
 import { ref } from 'vue'
 import { onMounted } from 'vue';
 
-const images = ref([
-  {
-    id: 0,
-    src: new URL("../assets/images/1.png", import.meta.url),
-    alt: "陈晓月"
-  },
-  {
-    id: 1,
-    src: new URL("../assets/images/2.png", import.meta.url),
-    alt: "集章册正面"
-  },
-  {
-    id: 2,
-    src: new URL("../assets/images/3.png", import.meta.url),
-    alt: "若似霜"
-  },
-  {
-    id: 3,
-    src: new URL("../assets/images/4.png", import.meta.url),
-    alt: "集章册反面"
-  },
-  {
-    id: 4,
-    src: new URL("../assets/images/5.png", import.meta.url),
-    alt: "表表表面"
-  }
-])
+//接口定义
+interface CarouselImage{
+  id: number;
+  src: URL;
+  alt?:string
+}
 
+export type CarouselImages=CarouselImage[]
+
+//变量设定
+const { images } = defineProps<{ images: CarouselImages }>()
 const isLeftAcitive = ref(false)
 const isRightAcitive = ref(false)
 const index = ref(0)
@@ -62,11 +45,13 @@ let timerAutoplay: number | null
 let timerActive: number | null
 let timerDisactive: number | null
 
+//钩子函数
 onMounted(() => {
   domImages = document.querySelector('.images') as HTMLElement
   autoplay()
 })
 
+//方法
 function leftActive() {
   if (!timerActive) {
     isLeftAcitive.value = true
@@ -94,7 +79,7 @@ function leftDisacitive() {
     //判断如果到了最前一张
     if (index.value == -1) {
       //初始化index=images.value.length-1
-      index.value = images.value.length - 1
+      index.value = images.length - 1
       //设置定时器把第一张变为最后一张
       setTimeout(() => {
         domImages.style.transform = `translate3d(-${(index.value + 1) * 1200}px,0,0)`
@@ -116,7 +101,7 @@ function rightDisacitive() {
     domImages.style.transition = 'all 1s ease-in-out'
     domImages.style.transform = `translate3d(-${(index.value + 1) * 1200}px,0,0)`
     //判断如果到了最后一张
-    if (index.value == images.value.length) {
+    if (index.value == images.length) {
       //初始化index=0
       index.value = 0
       //设置定时器把最后一张变为第一张
@@ -138,7 +123,7 @@ function autoplay() {
       domImages.style.transition = 'all 1s ease-in-out'
       domImages.style.transform = `translate3d(-${(index.value + 1) * 1200}px,0,0)`
       //判断如果到了最后一张
-      if (index.value == images.value.length) {
+      if (index.value == images.length) {
         //初始化index=0
         index.value = 0
         //设置定时器把最后一张变为第一张
