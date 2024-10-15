@@ -6,9 +6,7 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        red1: '#da0404',
-      }
+      
     },
   },
   plugins: [],
