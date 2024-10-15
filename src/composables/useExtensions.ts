@@ -1,4 +1,5 @@
-export function debounce(func:Function,wait:number,immediate:boolean=false,...args:Array<any>){
+//防抖函数
+export function debounce(func: Function, wait: number, immediate: boolean = false, ...args: Array<any>) {
     let timer:number | null
     return function(this:any){
       if (timer) clearTimeout(timer)
@@ -14,6 +15,7 @@ export function debounce(func:Function,wait:number,immediate:boolean=false,...ar
     }
   }
 
+//节流函数
 export function throttle(func:Function,wait:number,immediate:boolean=false,...args:Array<any>){
   let timer: number | null = null
   return function(this:any){
