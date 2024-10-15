@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen h-screen bg-white">
-    <div
+    <div @click="unshowMenuNav"
       class="flex flex-col gap-5  pt-5 pl-6 *:text-lg hover:*:-translate-y-1 *:transition-all">
       <RouterLink :to="{path:'/home'}">首页</RouterLink>
       <hr>
@@ -15,6 +15,13 @@
 
 <script lang="ts" setup>
 
+function unshowMenuNav(e: Event) {
+  if ((e.target as HTMLElement).tagName=='A') {
+    emits('unshowMenuNav')
+  }
+}
+
+const emits = defineEmits(['unshowMenuNav'])
 </script>
 
 <style lang="scss" scoped>

@@ -39,6 +39,8 @@ const emits = defineEmits({
 
   }
 })
+
+defineExpose({ isMenuHidden })
 </script>
 
 <style lang="scss" scoped></style>

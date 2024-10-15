@@ -1,6 +1,6 @@
 <template>
-  <Header class="shadow-md md:shadow-none" @show-menu-nav="showMenuNav"></Header>
-  <MenuNav :class="{'translate-x-0':isMenuHidden}" class="absolute z-10 md:hidden -translate-x-[100%] transition-all"></MenuNav>
+  <Header ref="header" class="shadow-md md:shadow-none" @show-menu-nav="showMenuNav"></Header>
+  <MenuNav :class="{'translate-x-0':isMenuHidden}" class="absolute z-10 md:hidden -translate-x-[100%] transition-all" @unshow-menu-nav="unshowMenuNav"></MenuNav>
   <Nav class="hidden md:block"></Nav>
   <RouterView class="mt-10"></RouterView>
   <div class="h-96"></div>
@@ -11,14 +11,21 @@
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import Nav from './components/Nav.vue';
-import Home from './views/home/Home.vue';
 import MenuNav from './components/MenuNav.vue';
 import { ref } from 'vue';
-import { fa } from 'element-plus/es/locales.mjs';
+import { useTemplateRef } from 'vue';
+import type { RefSymbol } from '@vue/reactivity';
 
-let isMenuHidden=ref(false)
+let isMenuHidden = ref(false)
+const header=useTemplateRef('header')
+
 function showMenuNav(val:boolean) {
   isMenuHidden.value = val
+}
+
+function unshowMenuNav() {
+  isMenuHidden.value = !isMenuHidden.value
+  header.value!.isMenuHidden=!isMenuHidden.value
 }
 </script>
 
