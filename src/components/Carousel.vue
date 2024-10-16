@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup name="Carousel">
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { onMounted } from 'vue';
 
 //接口定义
@@ -76,7 +76,6 @@ onMounted(() => {
       item.style.height = 'auto'
     })
   }
-
 })
 
 //方法
@@ -222,7 +221,7 @@ function stopAutoplay() {
   .images {
     display: flex;
     width: 700%;
-    transform: translate3d(-14.2857%,0, 0);
+    transform: translate3d(-14.2857%, 0, 0);
     transition: all 1s ease-in-out;
 
     li {

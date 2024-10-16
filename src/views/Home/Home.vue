@@ -1,10 +1,8 @@
 <template>
   <div class="flex flex-col items-center gap-10">
-    <div class="flex justify-center w-screen max-w-screen-xl">
-      <Carousel class="px-6" :images="carouselImagesStore.images" width="100%" border-radius="0" :shadow-image="true"
-        aspect-ratio="3">
-      </Carousel>
-    </div>
+    <Carousel v-if="isParentMounted" class="px-6 w-screen max-w-screen-xl" :images="carouselImagesStore.images" width="100%"
+      border-radius="0" :shadow-image="true" aspect-ratio="3">
+    </Carousel>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">视频组作品</h1>
@@ -23,9 +21,15 @@
 import Carousel from '@/components/Carousel.vue';
 import { useCarouselImagesStore } from '@/store/carouselImages';
 import { useVideoInfoStore } from '@/store/videoInfo';
+import { onMounted, ref } from 'vue';
 
 const carouselImagesStore = useCarouselImagesStore()
 const videoInfoStore = useVideoInfoStore()
+const isParentMounted = ref(false)
+
+onMounted(() => {
+  isParentMounted.value = true
+})
 </script>
 
 <style lang="scss" scoped></style>
