@@ -4,9 +4,9 @@
       class="flex flex-col gap-5  pt-5 pl-6 *:text-lg hover:*:-translate-y-1 *:transition-all">
       <RouterLink :to="{path:'/home'}">首页</RouterLink>
       <hr>
-      <RouterLink :to="{path:'/video'}">组员作品</RouterLink>
+      <RouterLink :to="{path:'/works'}">组员作品</RouterLink>
       <hr>
-      <RouterLink :to="{path:'/typesetting'}">拜年祭</RouterLink>
+      <RouterLink :to="{path:'/representation'}">拜年祭 / 社刊</RouterLink>
       <hr>
       <RouterLink :to="{path:'/activity'}">活动</RouterLink>
       <hr>

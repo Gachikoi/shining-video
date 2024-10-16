@@ -1,44 +1,49 @@
 <template>
-  <div class="px-6">
+  <div class="px-6 ">
     <div class="flex justify-center">
       <div class="flex flex-col items-center space-y-10">
+        <!-- top -->
         <div class="flex flex-col items-center w-screen max-w-screen-xl *:space-y-5">
-          <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">视频组简介</h1>
+          <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">关于我们</h1>
           <p class="w-1/2 m-6 mb-0 tracking-wide leading-loose text-center">
             晒你动漫社视频组官网旨在展示组内文化、作品、活动与历史。
           </p>
-      <p class="w-1/2 m-6 mt-0 tracking-wide leading-relaxed text-center">
+          <p class="w-1/2 m-6 mt-0 tracking-wide leading-relaxed text-center">
             我们希望为视频组成员提供一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个
             一个一个一个。
           </p>
         </div>
-        <div class="md:flex space-y-10 md:space-y-0 md:space-x-5 w-screen max-w-screen-xl *:space-y-5">
+        <!-- middle -->
+        <div class="md:flex justify-center space-y-10 md:space-y-0 md:space-x-5 w-screen max-w-screen-xl *:space-y-5">
+          <!-- left -->
           <div class="basis-1/2 flex flex-col items-center">
-            <h1 class="text-center font-mono text-3xl font-bold text-pretty pb-2 border-b-4 border-red-500">
+            <h1 class="font-mono text-2xl font-bold text-pretty pb-2 border-b-4 border-red-500">
               视频组官网于2024年建成并开始运营</h1>
             <div class="flex flex-col-reverse">
               <Card v-for="{ id, src, name, contact, title2: title, bililink } in info" :key="id"
                 :item="{ src, name, contact, title, bililink }"></Card>
             </div>
-            <h2 class="text-center font-mono text-2xl font-bold text-pretty">特别感谢</h2>
+            <h2 class="text-center font-mono text-xl font-bold text-pretty">特别感谢</h2>
             <p class="text-center">暂无</p>
           </div>
+          <!-- right -->
           <div class="basis-1/2 flex flex-col items-center">
-            <h1 class="text-center font-mono text-3xl font-bold text-pretty pb-2 border-b-4 border-red-500">
+            <h1 class="font-mono text-2xl font-bold text-pretty pb-2 border-b-4 border-red-500">
               视频组于2017年成立并开始活动</h1>
-            <div class="basis-0 flex">
+            <div class="flex flex-wrap justify-center">
               <Card v-for="{ id, src, name, contact, title3: title, bililink } in info" :key="id"
                 :item="{ src, name, contact, title, bililink }"></Card>
             </div>
-            <hr class="border-2">
-            <div class="flex flex-wrap">
+            <hr class="border-2 w-10/12">
+            <div class="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
               <Card v-for="{ id, src, name, contact, title1: title, bililink } in info" :key="id"
                 :item="{ src, name, contact, title, bililink }"></Card>
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-center w-screen max-w-screen-xl *:space-y-5">
-          <h1 class="text-center font-mono text-3xl font-bold text-pretty pb-2 border-b-4 border-red-500">视频组组员</h1>
+        <!-- bottom -->
+        <div class="flex flex-col flex-wrap items-center w-screen max-w-screen-xl space-y-5">
+          <h1 class="font-mono text-2xl font-bold text-pretty pb-2 border-b-4 border-red-500">视频组组员</h1>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <Card v-for="{ id, src, name, contact, title1: title, bililink } in info" :key="id"
               :item="{ src, name, contact, title, bililink }"></Card>

@@ -4,6 +4,7 @@
     @unshow-menu-nav="unshowMenuNav"></MenuNav>
   <Nav class="hidden md:block"></Nav>
   <RouterView class="mt-10"></RouterView>
+  <Forum class="mt-10"></Forum>
   <Footer class="mt-10"></Footer>
 </template>
 
@@ -12,6 +13,7 @@ import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import Nav from './components/Nav.vue';
 import MenuNav from './components/MenuNav.vue';
+import Forum from './components/Forum.vue';
 import { ref } from 'vue';
 import { useTemplateRef } from 'vue';
 

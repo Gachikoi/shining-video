@@ -10,14 +10,14 @@
       <p class="indent-8 m-6 mb-0 tracking-wide leading-relaxed text-justify">视频组全称Shining ACG Video
         Studio，即晒你动漫社视频组，隶属于宣传部，经过乌鸦、渣渣、令君、梓泠、书名号、掌控-物质、ガチ恋等前辈们和组长们的发展，现在是研习ACG视频制作技术，并为社团提供数字媒体技术支持的部门。内容包括但不限于MAD、MMD、PV制作，书刊及海报设计制作，以及其他实用工具的研究应用。
       </p>
-      <p class="indent-8 m-6 mt-0 tracking-wide leading-relaxed text-justify">
+      <p class="indent-8 mx-6 tracking-wide leading-relaxed text-justify">
         虽然但是，视频组并不需要门槛，大家都是从零开始的。另外，群里除了聊视频制作方面，还会聊管人（尤以国V日V为讨论中心）和一些日常水群，希望大家都能在群里玩得开心！</p>
     </div>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新视频产出</h1>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 hover:*:-translate-y-1 *:transition-all">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
         <a class="space-y-2 hover:text-red-500 active:text-red-500" v-for="info in videoInfoStore.homeVideoInfo"
           :key="info.id" :href="info.link" target="_blank">
           <img class="rounded-xl w-full" :src="info.src.href" :alt="info.alt">

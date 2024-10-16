@@ -11,13 +11,13 @@ export default createRouter({
     },
     {
       name:'组员作品',
-      path: '/video',
-      component: () => import("@/views/video/Video.vue")
+      path: '/works',
+      component: () => import("@/views/works/Works.vue")
     },
     {
-      name:'拜年祭',
-      path: '/typesetting',
-      component: () => import("@/views/typesetting/Typesetting.vue")
+      name:'拜年祭 / 社刊',
+      path: '/representation',
+      component: () => import("@/views/representation/Representation.vue")
     },
     {
       name:'活动',

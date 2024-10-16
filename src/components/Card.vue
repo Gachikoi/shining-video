@@ -1,7 +1,9 @@
 <template>
   <a class="" v-if="item.title" :href="item.bililink" target="_blank">
     <div class="flex rounded-2xl p-5 hover:shadow-lg hover:-translate-y-1 transition-all overflow space-x-5">
-      <img class="w-1/6 rounded-full" :src="item.src.href" alt="">
+      <div class="w-20 sm:w-24 lg:w-28">
+        <img class="w-full rounded-full" :src="item.src.href" alt="">
+      </div>
       <div class="flex flex-col justify-center">
         <span class="font-mono text-xl font-medium">{{ item.name }}</span>
         <span>{{ item.title }} </span>
@@ -15,7 +17,7 @@
 export interface CardInfo {
   src: URL
   name: string
-  contact?:string
+  contact?: string
   title?: string
   bililink?: string
 }
