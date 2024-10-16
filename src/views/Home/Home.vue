@@ -29,7 +29,7 @@
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新排版产出</h1>
       </div>
-      <div class="m-6 columns-xs space-y-5 gap-x-5 *:shadow-md">
+      <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
         <img style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/2024视频组迎新晚会海报1.png" alt="">
         <img style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/2024招新海报1.png" alt="">
         <img style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/1.png" alt="">

@@ -25,9 +25,9 @@ export default createRouter({
       component: () => import("@/views/activity/Activity.vue")
     },
     {
-      name: '历史',
-      path: '/history',
-      component: () => import("@/views/history/History.vue")
+      name: '关于我们',
+      path: '/about',
+      component: () => import("@/views/about/About.vue")
     },
     {
       path: '/',

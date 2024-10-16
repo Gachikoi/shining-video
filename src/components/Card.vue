@@ -1,31 +1,26 @@
 <template>
-  <div class="flex grow-0 rounded-2xl hover:shadow-lg hover:-translate-y-1 transition-all overflow-hidden space-x-5">
-    <img class="w-1/6" :src="item.src.href" alt="">
-    <div class="flex flex-col justify-center">
-      <span class="font-mono text-2xl font-medium">{{ item.name }}</span>
-      <span v-if="item.title1">{{ item.title1 }}</span>
-      <span v-if="item.title2">{{ item.title2 }}</span>
-      <span v-if="item.title3">{{ item.title3 }}</span>
-      <span v-if="item.contact">{{ item.contact }}</span>
+  <a class="" v-if="item.title" :href="item.bililink" target="_blank">
+    <div class="flex rounded-2xl p-5 hover:shadow-lg hover:-translate-y-1 transition-all overflow space-x-5">
+      <img class="w-1/6 rounded-full" :src="item.src.href" alt="">
+      <div class="flex flex-col justify-center">
+        <span class="font-mono text-xl font-medium">{{ item.name }}</span>
+        <span>{{ item.title }} </span>
+        <span v-if="item.contact">{{ item.contact }}</span>
+      </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script lang="ts" setup>
-export interface CardInfo{
-  id: number
+export interface CardInfo {
   src: URL
   name: string
   contact?:string
-  title1?: string
-  title2?: string
-  title3?: string
-  biliLink?:string
+  title?: string
+  bililink?: string
 }
 
-const {item}=defineProps<{item:CardInfo}>()
+const { item } = defineProps<{ item: CardInfo }>()
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -17,8 +17,8 @@
         <RouterLink :to="{ path: '/activity' }" class="*:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all">
           <span>活动</span>
         </RouterLink>
-        <RouterLink :to="{ path: '/history' }" class="*:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all">
-          <span>历史</span>
+        <RouterLink :to="{ path: '/about' }" class="*:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all">
+          <span>关于我们</span>
         </RouterLink>
       </div>
       <div class="flex shrink-0 justify-center items-center w-32 h-14">

@@ -10,7 +10,7 @@
       <hr>
       <RouterLink :to="{path:'/activity'}">活动</RouterLink>
       <hr>
-      <RouterLink :to="{ path: '/history' }">历史</RouterLink>
+      <RouterLink :to="{ path: '/about' }">关于我们</RouterLink>
       <hr>
       <a>登录 / 注册</a>
     </div>
