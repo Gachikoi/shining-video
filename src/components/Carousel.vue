@@ -68,7 +68,6 @@ onMounted(() => {
     const item = li as HTMLElement
     item.style.aspectRatio = aspectRatio
   });
-  (document.querySelector('.images') as HTMLElement).style.transform = `translate3d(-${domContainer.offsetWidth}px,0,0)`
   if (!shadowImage) {
     document.querySelectorAll('.images img').forEach((img) => {
       const item = img as HTMLElement
@@ -223,7 +222,7 @@ function stopAutoplay() {
   .images {
     display: flex;
     width: 700%;
-    transform: translate3d(-14.2857%, 0, 0);
+    transform: translate3d(-14.2857%,0, 0);
     transition: all 1s ease-in-out;
 
     li {

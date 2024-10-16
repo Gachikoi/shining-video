@@ -14,7 +14,6 @@ import Nav from './components/Nav.vue';
 import MenuNav from './components/MenuNav.vue';
 import { ref } from 'vue';
 import { useTemplateRef } from 'vue';
-import type { RefSymbol } from '@vue/reactivity';
 
 let isMenuHidden = ref(false)
 const header=useTemplateRef('header')
@@ -25,7 +24,7 @@ function showMenuNav(val:boolean) {
 
 function unshowMenuNav() {
   isMenuHidden.value = !isMenuHidden.value
-  header.value!.isMenuHidden=!isMenuHidden.value
+  header.value!.isMenuHidden = isMenuHidden.value
 }
 </script>
 

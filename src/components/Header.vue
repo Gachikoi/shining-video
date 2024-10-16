@@ -30,15 +30,10 @@ const route = useRoute()
 
 function showMenuNav() {
   isMenuHidden.value = !isMenuHidden.value
-  emits('showMenuNav', isMenuHidden.value)
-  
+  emits('showMenuNav', isMenuHidden.value) 
 }
 
-const emits = defineEmits({
-  showMenuNav(playload: boolean) {
-
-  }
-})
+const emits = defineEmits(['showMenuNav'])
 
 defineExpose({ isMenuHidden })
 </script>
