@@ -6,6 +6,8 @@
   <RouterView class="mt-10"></RouterView>
   <Forum class="mt-10"></Forum>
   <Footer class="mt-10"></Footer>
+  <!-- Login弹窗 -->
+   <Login></Login>
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +18,7 @@ import MenuNav from './components/MenuNav.vue';
 import Forum from './components/Forum.vue';
 import { ref } from 'vue';
 import { useTemplateRef } from 'vue';
+import Login from './components/Login.vue';
 
 let isMenuHidden = ref(false)
 const header = useTemplateRef('header')

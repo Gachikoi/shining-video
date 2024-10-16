@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.el-button--danger{
+  --el-button-bg-color:#ef4444;
+  --el-button-border-color:#ef4444;
+}
+@layer components{
+  #login-password label,
+  #login-email label{
+    &::after{
+      content: '*';
+      color: #ef4444;
+    }
+  }
+}
+

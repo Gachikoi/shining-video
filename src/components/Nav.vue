@@ -22,7 +22,7 @@
             <span>关于我们</span>
           </RouterLink>
         </div>
-        <a class="flex shrink-0 justify-center items-center w-32 h-14 *:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all active:bg-red-700 ">
+        <a class="flex shrink-0 justify-center items-center w-32 h-14 *:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all active:bg-red-700 " @click="">
           <span>登录 / 注册</span>
         </a>
       </div>
