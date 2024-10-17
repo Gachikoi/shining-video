@@ -12,12 +12,13 @@
       <hr>
       <RouterLink :to="{ path: '/about' }">关于我们</RouterLink>
       <hr>
-      <a>登录 / 注册</a>
+      <a @click="emitter.emit('showLogin')" class="cursor-pointer select-none">登录 / 注册</a>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { emitter } from '@/utils/emitter';
 
 function unshowMenuNav(e: Event) {
   if ((e.target as HTMLElement).tagName=='A') {
