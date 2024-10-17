@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts" setup name="Carousel">
-import { nextTick, ref } from 'vue'
+import { throttle } from '@/composables/useExtensions';
+import { ref } from 'vue'
 import { onMounted } from 'vue';
 
 //接口定义
@@ -40,7 +41,7 @@ const { images, width, borderRadius, shadowImage, aspectRatio } = withDefaults(d
   width: () => '100%',
   borderRadius: () => '20px',
   shadowImage: () => true,
-  aspectRatio: () => '1200/350'
+  aspectRatio:()=>'3'
 })
 const isLeftAcitive = ref(false)
 const isRightAcitive = ref(false)
@@ -53,6 +54,7 @@ let timerAutoplay: number | null
 let timerActive: number | null
 let timerDisactive: number | null
 
+let func:Function
 //钩子函数
 onMounted(() => {
   //开启自动播放
@@ -60,9 +62,10 @@ onMounted(() => {
   autoplay();
 
   //根据传入的参数自定义轮播图样式
+  const domCarousel = document.querySelector('.carousel') as HTMLElement
   domContainer = document.querySelector('.silder-container') as HTMLElement
   domContainer.style.borderRadius = borderRadius;
-  domContainer.style.aspectRatio = aspectRatio;
+  domContainer.style.aspectRatio = aspectRatio
   domContainer.style.width = width
   document.querySelectorAll('.images li').forEach((li) => {
     const item = li as HTMLElement
@@ -169,97 +172,99 @@ function stopAutoplay() {
 <style lang="scss" scoped>
 @use "sass:math";
 
-.silder-container {
-  position: relative;
-  overflow: hidden;
+.carousel {
   width: 100%;
-  aspect-ratio: 1200 / 350;
-  border-radius: 20px;
 
-  .arrow {
-    .left {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%) rotate(225deg);
-      width: 30px;
-      height: 30px;
-      border-top: 5px solid gainsboro;
-      border-right: 5px solid gainsboro;
-      border-radius: 5px;
-      transition: all 0.1s ease-in-out;
+  .silder-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 20px;
 
-      &:hover {
-        cursor: pointer;
+    .arrow {
+      .left {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%) rotate(225deg);
+        width: 30px;
+        height: 30px;
+        border-top: 5px solid gainsboro;
+        border-right: 5px solid gainsboro;
+        border-radius: 5px;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .right {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%) rotate(45deg);
+        width: 30px;
+        height: 30px;
+        border-top: 5px solid gainsboro;
+        border-right: 5px solid gainsboro;
+        border-radius: 5px;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .active {
+        scale: 0.9;
       }
     }
 
-    .right {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%) rotate(45deg);
-      width: 30px;
-      height: 30px;
-      border-top: 5px solid gainsboro;
-      border-right: 5px solid gainsboro;
-      border-radius: 5px;
-      transition: all 0.1s ease-in-out;
+    .images {
+      display: flex;
+      width: 700%;
+      transform: translate3d(-14.2857%, 0, 0);
+      transition: all 1s ease-in-out;
 
-      &:hover {
-        cursor: pointer;
+      li {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        width: 1/7;
+
+        img {
+          height: 98%;
+          box-shadow: 0px 0px 1px 1px rgba($color: #b2b2b247, $alpha: 0.3);
+        }
       }
+    }
+  }
+
+  .bar {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    height: 20px;
+    justify-content: center;
+
+    li {
+      width: 30px;
+      height: 10px;
+      background-color: gainsboro;
+      border-radius: 10px;
+      box-shadow: 0px 0px 2px 2px rgba($color: #7b7b7b, $alpha: .2);
+      margin-right: 10px;
+      transition: all 0.5s ease-in-out;
     }
 
     .active {
-      scale: 0.9;
+      background-color: white;
+      width: 54px;
     }
-  }
-
-  .images {
-    display: flex;
-    width: 700%;
-    transform: translate3d(-14.2857%, 0, 0);
-    transition: all 1s ease-in-out;
-
-    li {
-      display: flex;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-      width: 1/7;
-      aspect-ratio: 1200 / 350;
-
-      img {
-        height: 98%;
-        box-shadow: 0px 0px 1px 1px rgba($color: #b2b2b247, $alpha: 0.3);
-      }
-    }
-  }
-}
-
-.bar {
-  display: flex;
-  margin-top: 10px;
-  width: 100%;
-  height: 20px;
-  justify-content: center;
-
-  li {
-    width: 30px;
-    height: 10px;
-    background-color: gainsboro;
-    border-radius: 10px;
-    box-shadow: 0px 0px 2px 2px rgba($color: #7b7b7b, $alpha: .2);
-    margin-right: 10px;
-    transition: all 0.5s ease-in-out;
-  }
-
-  .active {
-    background-color: white;
-    width: 54px;
   }
 }
 </style>
