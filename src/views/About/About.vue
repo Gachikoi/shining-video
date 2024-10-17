@@ -50,6 +50,7 @@
             :item="{ src, name, contact, title, bililink }" loading="lazy"></Card>
         </div>
       </div>
+      <img src="../../assets/images/2024晒你纪视频组合照.jpg" loading="lazy" alt="">
     </div>
   </div>
 </template>
@@ -57,12 +58,15 @@
 <script lang="ts" setup>
 import Card from '@/components/Card.vue';
 import { onMounted, ref } from 'vue';
-const image = ref({
 
-  src: new URL("../../assets/images/2024xixiaodian.png", import.meta.url),
-  name: '1',
-  title:'1'
-})
+//这种方式仍然会导致——页面停留在lazy元素上时，刷新页面，滚动条位置被还原，viewport在lazy元素上，lazy元素立刻被加载。
+//是一种掩耳盗铃的懒加载方式。
+//正确的做法是在router中配饰scrollBehavior。其中savedPosition就是刷新前浏览器为我们自动保存的scroll值，我们只需要一律返回0就好。
+// onMounted(() => {
+  // setTimeout(() => {   
+  // document.documentElement.scrollTop = 0;
+  // }, 0);
+// })
 const info = ref([
   {
     id: 0,

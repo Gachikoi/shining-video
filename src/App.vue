@@ -3,11 +3,15 @@
   <MenuNav :class="{ 'translate-x-0': isMenuHidden }" class="absolute z-10 md:hidden -translate-x-[100%] transition-all"
     @unshow-menu-nav="unshowMenuNav"></MenuNav>
   <Nav class="hidden md:block"></Nav>
-  <RouterView class="mt-10"></RouterView>
+  <router-view class="mt-10" v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
   <Forum class="mt-10"></Forum>
   <Footer class="mt-10"></Footer>
   <!-- Login弹窗 -->
-   <Login></Login>
+  <Login></Login>
 </template>
 
 <script lang="ts" setup>
