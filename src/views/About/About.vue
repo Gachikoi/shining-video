@@ -1,7 +1,6 @@
 <template>
   <div class="flex justify-center">
     <div class="flex flex-col items-center space-y-10">
-      <div class="w-full h-[200rem]"></div>
       <!-- top -->
       <div class="px-6 flex flex-col items-center w-screen max-w-screen-xl *:space-y-5">
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">关于我们</h1>
@@ -50,7 +49,6 @@
             :item="{ src, name, contact, title, bililink }" loading="lazy"></Card>
         </div>
       </div>
-      <img src="../../assets/images/2024晒你纪视频组合照.jpg" loading="lazy" alt="">
     </div>
   </div>
 </template>
