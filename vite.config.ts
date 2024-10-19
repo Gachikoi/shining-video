@@ -16,6 +16,14 @@ export default defineConfig({
     }
   },
   server: {
-    host:'192.168.1.103'
+    // host: '192.168.1.103',
+    
+    proxy: {
+      "/test": {
+        target: 'http://localhost:900',
+        changeOrigin:true
+      }
+    }
   }
+  
 })
