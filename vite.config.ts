@@ -6,6 +6,13 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vite.dev/config/
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx(),

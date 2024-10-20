@@ -37,12 +37,7 @@ interface CarouselImage {
 export type CarouselImages = CarouselImage[]
 
 //变量设定
-const { images, width, borderRadius, shadowImage, aspectRatio } = withDefaults(defineProps<{ images: CarouselImages, width?: string, borderRadius?: string, shadowImage?: boolean, aspectRatio?: string }>(), {
-  width: () => '100%',
-  borderRadius: () => '20px',
-  shadowImage: () => true,
-  aspectRatio:()=>'3'
-})
+const { images, width='100%', borderRadius='20px', shadowImage=true, aspectRatio='3' } = defineProps<{ images: CarouselImages, width?: string, borderRadius?: string, shadowImage?: boolean, aspectRatio?: string }>()
 const isLeftAcitive = ref(false)
 const isRightAcitive = ref(false)
 const index = ref(0)
