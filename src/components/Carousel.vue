@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup name="Carousel">
-import { throttle } from '@/composables/useExtensions';
+import { throttle } from '@/utils/extensions';
 import { ref } from 'vue'
 import { onMounted } from 'vue';
 
