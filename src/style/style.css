@@ -7,10 +7,17 @@
   --el-button-bg-color:#ef4444;
   --el-button-border-color:#ef4444;
 }
+.el-form-item__label{
+  width: 15%;
+  display: flex;
+  justify-content: center;
+}
 @layer components{
   .el-input{
     --el-input-focus-border-color:rgba(0, 0, 0, 0.3);
   }
-  
+  .el-upload-dragger .el-upload__text em{
+    color:#ef4444
+  }
 }
 
