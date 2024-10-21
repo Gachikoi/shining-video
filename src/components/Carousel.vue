@@ -11,33 +11,25 @@
         </div>
       </div>
       <ul class="images">
-        <li><img :src="images[images.length - 1].src.href" :alt="images[images.length - 1].alt"></li>
-        <li v-for="{ id, src, alt } in images" :key="id"><img :src="src.href" :alt="alt"></li>
-        <li><img :src="images[0].src.href" :alt="images[0].alt"></li>
+        <li><img :src="serverURL+images[images.length - 1].path" :alt="images[images.length - 1].alt"></li>
+        <li v-for="{ id, path, alt } in images" :key="id"><img :src="serverURL+path" :alt="alt"></li>
+        <li><img :src="serverURL+images[0].path" :alt="images[0].alt"></li>
       </ul>
     </div>
     <ul class="bar">
-      <li v-for="{ id } in images" :key="id" :class="{ active: id == index }"></li>
+      <li v-for="(_,_index) in images" :key="_index" :class="{ active: _index == index }"></li>
     </ul>
   </div>
 </template>
 
 <script lang="ts" setup name="Carousel">
-import { throttle } from '@/utils/extensions';
 import { ref } from 'vue'
 import { onMounted } from 'vue';
-
-//接口定义
-interface CarouselImage {
-  id: number;
-  src: URL;
-  alt?: string
-}
-
-export type CarouselImages = CarouselImage[]
+import { type CarouselImageArr } from '@/api/home';
+import { serverURL } from '@/api/config';
 
 //变量设定
-const { images, width='100%', borderRadius='20px', shadowImage=true, aspectRatio='3' } = defineProps<{ images: CarouselImages, width?: string, borderRadius?: string, shadowImage?: boolean, aspectRatio?: string }>()
+const { images, width = '100%', borderRadius = '20px', shadowImage = true, aspectRatio = '3' } = defineProps<{ images: CarouselImageArr, width?: string, borderRadius?: string, shadowImage?: boolean, aspectRatio?: string }>()
 const isLeftAcitive = ref(false)
 const isRightAcitive = ref(false)
 const index = ref(0)
@@ -49,7 +41,6 @@ let timerAutoplay: number | null
 let timerActive: number | null
 let timerDisactive: number | null
 
-let func:Function
 //钩子函数
 onMounted(() => {
   //开启自动播放

@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { serverURL } from './src/api/config.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -26,9 +27,10 @@ export default defineConfig({
     // host: '192.168.1.103',
     
     proxy: {
-      "/": {
-        target: 'http://localhost:900',
-        changeOrigin:true
+      "/api": {
+        target: serverURL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "")
       }
     }
   }

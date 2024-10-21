@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia"
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import ElementPlus from "element-plus"
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -11,7 +12,8 @@ import '@/style/style.css'
 import App from './App.vue'
 import router from './router'
 
-const pinia=createPinia()
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 const app=createApp(App)
 
 app.use(router)

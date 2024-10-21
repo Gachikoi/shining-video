@@ -2,7 +2,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 
 const request = axios.create({
-  baseURL: '', //请求的基础路径的设置
+  baseURL: '/api', //请求的基础路径的设置
   timeout: 5000 //超时的事件
 })
 
@@ -11,7 +11,7 @@ request.interceptors.request.use((config) => {
 })
 
 request.interceptors.response.use((response) => {
-  return response.data
+  return response
 }, (error => {
   let status = error.response.status
   switch (status) {

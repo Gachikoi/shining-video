@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center gap-10">
-    <Carousel v-if="isParentMounted" class="px-6 w-screen max-w-screen-xl" :images="carouselImagesStore.images"
-      width="100%" border-radius="0" :shadow-image="true" aspect-ratio="2.5">
+    <Carousel v-if="homeDataStore.carouselImages.length!=0" class="px-6 w-screen max-w-screen-xl" :images="homeDataStore.carouselImages" width="100%"
+      border-radius="0" :shadow-image="true" aspect-ratio="2.5">
     </Carousel>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
@@ -17,11 +17,12 @@
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新视频产出</h1>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
-        <a class="space-y-2 hover:text-red-500 active:text-red-500" v-for="info in videoInfoStore.homeVideoInfo"
-          :key="info.id" :href="info.link" target="_blank">
-          <img class="rounded-xl w-full" :src="info.src.href" :alt="info.alt">
-          <p class="text-center text-pretty line-clamp-2 tracking-wide">{{ info.title }}</p>
+      <div
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
+        <a class="space-y-2 hover:text-red-500 active:text-red-500" v-for="{id,link,path,title} in homeDataStore.lastestVideos"
+          :key="id" :href="link" target="_blank">
+          <img class="rounded-xl w-full" :src="serverURL+path">
+          <p class="text-center text-pretty line-clamp-2 tracking-wide">{{ title }}</p>
         </a>
       </div>
     </div>
@@ -30,10 +31,8 @@
         <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新排版产出</h1>
       </div>
       <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
-        <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/2024视频组迎新晚会海报1.png" alt="">
-        <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/2024招新海报1.png" alt="">
-        <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src="../../assets/images/1.png" alt="">
-        <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" src=" ../../assets/images/3.png" alt="">
+        <img v-for="image in homeDataStore.lastestTypesettings" loading="lazy" :key="image.id" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);"
+          :src="serverURL + image.path" alt="">
       </div>
     </div>
   </div>
@@ -41,18 +40,17 @@
 
 <script lang="ts" setup>
 import Carousel from '@/components/Carousel.vue';
-import { useCarouselImagesStore } from '@/store/carouselImages';
-import { useVideoInfoStore } from '@/store/videoInfo';
-import { onMounted, ref } from 'vue';
+import { useHomeDataStore } from '@/store/homeData';
+import { serverURL } from '@/api/config';
 
-const carouselImagesStore = useCarouselImagesStore()
-const videoInfoStore = useVideoInfoStore()
-const isParentMounted = ref(false)
+const homeDataStore = useHomeDataStore()
+//如果在setup中使用await，此组件就需要被嵌套在<Suspense>中
+//但是如果我们不需要等待异步函数执行的结果，就不需要加上await。
+homeDataStore.getLastestVideos()
+homeDataStore.getLastestTypesettings()
+homeDataStore.getCarouselImages()
 
-onMounted(() => {
-  isParentMounted.value = true
-})
+
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
