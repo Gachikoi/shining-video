@@ -19,6 +19,7 @@ request.interceptors.response.use((response) => {
   return response
 }, (error => {
   let status = error.status
+  let data = error.response.data
   switch (status) {
     case 404:
       ElMessage({
@@ -33,10 +34,26 @@ request.interceptors.response.use((response) => {
       })
       break
     default:
-      ElMessage({
-        type: 'error',
-        message: '其他错误'
-      })
+      console.log(data,error)
+      switch (data) {
+        case '验证码错误':
+          ElMessage({
+            type: 'error',
+            message: '验证码错误'
+          })
+          break
+        case '还未发送验证码':
+          ElMessage({
+            type: 'error',
+            message: '还未发送验证码'
+          })
+          break
+        default:
+          ElMessage({
+            type: 'error',
+            message: '其他错误'
+          })
+      }
   }
 }))
 

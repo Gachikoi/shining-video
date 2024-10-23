@@ -11,6 +11,7 @@
   width: 15%;
   display: flex;
   justify-content: center;
+  white-space: nowrap;
 }
 @layer components{
   .el-input{
