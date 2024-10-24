@@ -11,7 +11,7 @@
   <Forum class="mt-10"></Forum>
   <Footer class="mt-10"></Footer>
   <!-- Login弹窗 -->
-  <Login></Login>
+  <Login v-if="dialogFormVisible" v-model="dialogFormVisible"></Login>
 </template>
 
 <script lang="ts" setup>
@@ -20,9 +20,15 @@ import Header from './components/Header.vue';
 import Nav from './components/Nav.vue';
 import MenuNav from './components/MenuNav.vue';
 import Forum from './components/Forum.vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useTemplateRef } from 'vue';
 import Login from './components/Login.vue';
+import { emitter } from '@/utils/emitter';
+
+const dialogFormVisible = ref(false)
+emitter.on('showLogin', () => {
+  dialogFormVisible.value = true
+})
 
 let isMenuHidden = ref(false)
 const header = useTemplateRef('header')

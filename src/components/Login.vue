@@ -66,22 +66,26 @@
 
 <script lang="ts" setup>
 import { computed, onUnmounted, ref, watch } from 'vue';
-import { emitter } from '@/utils/emitter';
 import { UploadFilled } from '@element-plus/icons-vue'
-import { reqLogin, reqRegister, reqCode, type RegisterResponseData } from '@/api/login';
+import { reqLogin, reqRegister, reqCode } from '@/api/login';
 import { useUserStore } from '@/store/user';
-import type { AxiosResponse } from 'axios';
+import { emitter } from '@/utils/emitter';
+import { ElMessage } from 'element-plus';
 
-
-emitter.on('showLogin', () => {
-  dialogFormVisible.value = true
-})
+const [dialogFormVisible] = defineModel<boolean>({ required: true })
 
 onUnmounted(() => {
-  URL.revokeObjectURL(avatarPreview.value.src)
+  //在点击登录/注册按钮时，由于register界面未显示，avatarPreview没有实例，因此没有值。
+  //如果这时关闭组件，组件就会卸载，获取avatarPreview.value就会报错，所以必须加上`?`。
+  if (avatarPreview.value?.src) {
+    //每次调用 createObjectURL() 时，都会创建一个新的对象 URL，即使已经为同一个对象创建了一个 URL。
+    //当不再需要这些对象时，必须通过调用 URL.revokeObjectURL() 来释放它们。
+    // 浏览器会在卸载文档时自动释放对象 URL；然而，为了优化性能和内存使用，如果在安全时间内可以明确卸载，就应该卸载。
+    URL.revokeObjectURL(avatarPreview.value.src)
+  }
 })
 
-const userStore=useUserStore()
+const userStore = useUserStore()
 const loginRef = ref()
 const registerRef = ref()
 
@@ -105,14 +109,13 @@ const rules = ref({
   ],
   password: [
     { required: true, message: "密码不能为空", trigger: 'change' },
-    { min: 6, max: 20, message: "密码为6～20位数字或英文字母", trigger: 'change' }
+    { min: 6, max: 20, message: "密码为6～20位", trigger: 'change' }
   ],
   code: [
     { required: true, message: "验证码不能为空", trigger: 'blur' },
     { min: 4, max: 4, message: "验证码为4位数字", trigger: 'blur' }
   ]
 })
-const dialogFormVisible = ref(false)
 const showRegister = ref(false)
 const title = computed(() => {
   if (showRegister.value) {
@@ -140,8 +143,23 @@ const uploadTip = ref()
 const countdown = ref(60)
 const isCountdownHidden = ref(true)
 
-function login() {
-  reqLogin(loginForm.value)
+async function login() {
+  try {
+    const { data: { token, avatarPath, name, id } } = await reqLogin(loginForm.value)
+    userStore.$patch({
+      isLogin:true,
+      token,
+      avatarPath,
+      name,
+      email:loginForm.value.email
+    })
+    userStore.isLogin=true
+    dialogFormVisible.value = false
+    ElMessage({
+      type: 'success',
+      message: "登录成功"
+    })
+  } catch { }
 }
 
 //实现avatar上传是否符合规范的判断和预览
@@ -162,6 +180,7 @@ function previewAndJudge() {
 }
 
 function getCode() {
+  //不用等待结果返回，直接开始倒计时
   reqCode(registerForm.value.email)
   isCountdownHidden.value = false
   isGetCodeButtonDisabled.value = true
@@ -186,17 +205,21 @@ async function register() {
   formData.append('code', registerForm.value.code)
   //我们甚至不用设置content-type，因为axios会自动帮我们设置好
   try {
-    const { data: { token, avatarPath,id } } = await reqRegister(formData)
+    const { data: { token, avatarPath, id } } = await reqRegister(formData)
     userStore.$patch({
-      token:token,
+      isLogin: true,
+      token: token,
       avatarPath: avatarPath,
-      id: id,
       name: registerForm.value.name,
-      email:registerForm.value.email
+      email: registerForm.value.email
     })
-    console.log(userStore.id);
-    
-  } catch {}
+    userStore.isLogin=true
+    dialogFormVisible.value = false
+    ElMessage({
+      type: 'success',
+      message:"注册成功"
+    })
+  } catch { }
 }
 
 //监听登录表单是否合规，合规则启动登录申请按钮

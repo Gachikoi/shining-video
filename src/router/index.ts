@@ -30,6 +30,11 @@ export default createRouter({
       component: () => import("@/views/about/About.vue"),
     },
     {
+      name: '个人中心',
+      path: '/user',
+      component:()=>import("@/views/user/User.vue")
+    },
+    {
       path: '/',
       redirect:'home'
     },
