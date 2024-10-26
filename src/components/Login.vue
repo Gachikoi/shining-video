@@ -1,12 +1,12 @@
 <template>
   <el-dialog v-model="dialogFormVisible" :title="title" class="w-80 sm:w-96 md:w-[32rem]">
     <!-- login -->
-    <el-form v-if="!showRegister" :model="loginForm" :rules="rules" ref="loginRef" :status-icon="true">
+    <el-form v-if="!showRegister" :model="loginForm" :rules="rules" ref="loginRef">
       <el-form-item label="邮箱" id="login-email" prop="email">
         <el-input v-model="loginForm.email" placeholder="you@example.com" />
       </el-form-item>
       <el-form-item label="密码" id="login-password" prop="password">
-        <el-input v-model="loginForm.password" placeholder="请输入6-20位密码" />
+        <el-input v-model="loginForm.password" placeholder="请输入6-20位密码" show-password/>
       </el-form-item>
       <div class="dialog-footer ">
         <div class="flex justify-around">
@@ -18,7 +18,7 @@
       </div>
     </el-form>
     <!-- register -->
-    <el-form v-if="showRegister" :model="registerForm" :rules="rules" ref="registerRef" :status-icon="true">
+    <el-form v-if="showRegister" :model="registerForm" :rules="rules" ref="registerRef">
       <el-form-item>
         <input class="hidden" type="file" @change="previewAndJudge" accept=".jpg,.jpeg,.png" id="file" />
         <div class="flex flex-col justify-center items-center m-auto">
@@ -41,7 +41,7 @@
         <el-input v-model="registerForm.email" placeholder="you@example.com" />
       </el-form-item>
       <el-form-item label="密码" id="login-password" prop="password">
-        <el-input v-model="registerForm.password" placeholder="请输入6-20位密码" />
+        <el-input v-model="registerForm.password" placeholder="请输入6-20位密码" type="password" show-password />
       </el-form-item>
       <el-form-item label="验证码" id="login-code" prop="code">
         <div class="w-full flex gap-3">
@@ -69,7 +69,6 @@ import { computed, onUnmounted, ref, watch } from 'vue';
 import { UploadFilled } from '@element-plus/icons-vue'
 import { reqLogin, reqRegister, reqCode } from '@/api/login';
 import { useUserStore } from '@/store/user';
-import { emitter } from '@/utils/emitter';
 import { ElMessage } from 'element-plus';
 
 const [dialogFormVisible] = defineModel<boolean>({ required: true })
@@ -153,7 +152,6 @@ async function login() {
       name,
       email:loginForm.value.email
     })
-    userStore.isLogin=true
     dialogFormVisible.value = false
     ElMessage({
       type: 'success',
@@ -167,6 +165,7 @@ function previewAndJudge() {
   isFileChoosed.value = true
   const file = document.getElementById('file') as HTMLInputElement
   if (file.files![0]) {
+    URL.revokeObjectURL(avatarPreview.value.src)
     avatarPreview.value.src = URL.createObjectURL(file.files![0])
     avatarPreview.value.classList.remove('hidden')
     uploadSVG.value.$el.classList.add('hidden')
@@ -213,7 +212,6 @@ async function register() {
       name: registerForm.value.name,
       email: registerForm.value.email
     })
-    userStore.isLogin=true
     dialogFormVisible.value = false
     ElMessage({
       type: 'success',

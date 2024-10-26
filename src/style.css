@@ -13,6 +13,21 @@
   justify-content: center;
   white-space: nowrap;
 }
+
+@layer base {
+  h1{
+    @apply text-2xl font-mono font-bold
+  }
+
+  h2{
+    @apply text-xl font-mono font-bold
+  }
+
+  input:focus {
+    @apply outline-none
+  }
+}
+
 @layer components{
   .el-input{
     --el-input-focus-border-color:rgba(0, 0, 0, 0.3);

@@ -26,13 +26,20 @@
           cursor-pointer select-none" @click="emitter.emit('showLogin')">
           <span>登录 / 注册</span>
         </a>
-        <div v-else class="relative w-32 h-14  text-center">
-          <div
-            class="overflow-hidden absolute flex shrink-0 flex-col w-32 h-14 group hover:h-28 transition-all  *:text-center *:leading-[3.5rem] bg-red-500 active:*:bg-red-700">
-            <RouterLink :to="{ path: '/user' }" class="cursor-pointer">个人中心<el-icon
-                class="el-icon--right"><arrow-down /></el-icon></RouterLink>
+        <div v-else class="relative w-32 h-14 text-center">
+          <div class="absolute flex shrink-0 flex-col group  *:bg-red-500 active:*:bg-red-700">
+            <RouterLink :to="{ path: '/user' }"
+              class="flex justify-center items-center w-32 h-14 *:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all cursor-pointer">
+              <div>
+                <span>个人中心</span>
+                <el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </div>
+            </RouterLink>
             <hr class="border-current">
-            <a class="hidden group-hover:flex cursor-pointer" @click="userStore.loginOut"><span class="m-auto">登出</span></a>
+            <a class="overflow-hidden flex justify-center items-center w-32 h-0 group-hover:h-14 transition-all rounded-bl-lg rounded-br-lg *:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all cursor-pointer"
+              @click="userStore.loginOut">
+              <span>登出</span>
+            </a>
           </div>
         </div>
       </div>

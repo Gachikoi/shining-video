@@ -5,7 +5,7 @@
     </Carousel>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
-        <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">视频组简介</h1>
+        <h1 class="pb-2 border-b-4 border-red-500 ">视频组简介</h1>
       </div>
       <p class="indent-8 m-6 mb-0 tracking-wide leading-relaxed text-justify">视频组全称Shining ACG Video
         Studio，即晒你动漫社视频组，隶属于宣传部，经过乌鸦、渣渣、令君、梓泠、书名号、掌控-物质、ガチ恋等前辈们和组长们的发展，现在是研习ACG视频制作技术，并为社团提供数字媒体技术支持的部门。内容包括但不限于MAD、MMD、PV制作，书刊及海报设计制作，以及其他实用工具的研究应用。
@@ -15,7 +15,7 @@
     </div>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
-        <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新视频产出</h1>
+        <h1 class="pb-2 border-b-4 border-red-500 ">最新视频产出</h1>
       </div>
       <div
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
@@ -28,7 +28,7 @@
     </div>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
-        <h1 class="text-2xl pb-2 border-b-4 border-red-500 font-mono font-bold">最新排版产出</h1>
+        <h1 class="pb-2 border-b-4 border-red-500 ">最新排版产出</h1>
       </div>
       <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
         <img v-for="image in homeDataStore.lastestTypesettings" loading="lazy" :key="image.id" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);"

@@ -19,7 +19,7 @@ import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import Nav from './components/Nav.vue';
 import MenuNav from './components/MenuNav.vue';
-import Forum from './components/Forum.vue';
+import Forum from './views/forum/Forum.vue';
 import { ref } from 'vue';
 import { useTemplateRef } from 'vue';
 import Login from './components/Login.vue';

@@ -7,7 +7,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 
 // import '@/style/reset.scss'
-import '@/style/style.css'
+import '@/style.css'
 
 import App from './App.vue'
 import router from './router'

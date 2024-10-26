@@ -35,43 +35,10 @@ request.interceptors.response.use((response) => {
       })
       break
     default:
-      switch (data) {
-        case '验证码错误':
-          ElMessage({
-            type: 'error',
-            message: data
-          })
-          break
-        case '还未发送验证码':
-          ElMessage({
-            type: 'error',
-            message:data
-          })
-          break
-        case '此邮箱已被注册过':
-          ElMessage({
-            type: 'error',
-            message: data
-          })
-          break
-        case '密码错误':
-          ElMessage({
-            type: 'error',
-            message: data
-          })
-          break
-        case '此邮箱还未注册':
-          ElMessage({
-            type: 'error',
-            message: data
-          })
-          break
-        default:
-          ElMessage({
-            type: 'error',
-            message: '其他错误'
-          })
-      }
+      ElMessage({
+        type: 'error',
+        message: data
+      })
   }
 }))
 
