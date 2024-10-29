@@ -57,7 +57,6 @@ const myPostCommentRefs = ref<CommentInstance[]>([])
 onMounted(() => {
   emitter.on('loadForum', async () => {
     try {
-      console.log(1);
       const result = await reqGetComments()
       data.value = result.data
     } catch { }

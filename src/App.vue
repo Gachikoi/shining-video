@@ -28,6 +28,7 @@ import { emitter } from '@/utils/emitter';
 import { useUserStore } from './store/user';
 import ForumBanned from './views/forum/ForumBanned.vue';
 import { useRoute } from 'vue-router';
+import { nextTick } from 'vue';
 
 const route = useRoute()
 
@@ -35,15 +36,14 @@ onMounted(async () => {
   emitter.on('showLogin', () => {
     dialogFormVisible.value = true
   })
-  //传入0代表App.vue挂载，因为内容请求都是异步的，所以挂载时
-  emitter.on('observeForum', (val) => {
-    console.log(1);
-    
+
+  emitter.on('observeForum', async (val) => {
+    await nextTick()
     count = val as number
-    if (document.getElementById('forum')) {
-      intersectionObserver.observe(document.getElementById('forum') as HTMLElement);
-    }
+    console.log(1);
+    intersectionObserver.observe(document.getElementById('forum') as HTMLElement)
   })
+  finishEmitterOn.value = true
 })
 
 onBeforeUnmount(() => {
@@ -51,9 +51,12 @@ onBeforeUnmount(() => {
   emitter.off('observeForum')
 })
 
+let finishEmitterOn = ref(false)
 let count: number
 //回调函数会在被观察元素进入和离开视口的时候分别调用一次
 const intersectionObserver = new IntersectionObserver((entries) => {
+  console.log(2);
+  
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       if (count == 0) {
@@ -87,13 +90,31 @@ function unshowMenuNav() {
   header.value!.isMenuHidden = isMenuHidden.value
 }
 
-watch(() => route.path, () => {
-  if (route.path.substring(0, 5) === '/user') {
-    emitter.emit('loadForum')
-  } else {
+watch(() => userStore.isLogin, () => {
+  if (userStore.isLogin) {
+    console.log(2);
+
+    emitter.emit('observeForum', 1)
+  }
+})
+watch(finishEmitterOn, () => {
+  if (userStore.isLogin) {
+    console.log(2);
+
     emitter.emit('observeForum', 0)
   }
 })
+
+//登录后，在个人中心界面刷新页面，app.vue重新挂载，虽然forum在视口内，但observer的回调函数不被触发。
+//猜想：这可能是因为，在个人中心刷新页面后，userStore.isLogin=true，forum已经挂载，不满足intersectionObserver回调函数的触发条件——移入/移出视口。
+//为什么在“首页”等界面，视口内有卸载的forum的情况下，登录会触发回调函数？
+//猜想：登录触发forum挂载，相当于移入视口。
+watch(() => route.path, () => {
+  if (route.path.slice(0, 5) === '/user') {
+    intersectionObserver.disconnect()
+    emitter.emit('loadForum')
+  }
+},{once:true})
 </script>
 
 <style lang="css" scoped></style>
