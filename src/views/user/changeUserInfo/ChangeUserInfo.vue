@@ -5,7 +5,7 @@
     <div class="flex justify-center w-full *:flex *:flex-col gap-5 sm:gap-20">
       <div class="items-center gap-6">
         <div class="relative w-28 md:w-32">
-          <img class="w-28 md:w-32 h-28 md:h-32 rounded-full" :src="serverURL + userStore.avatarPath"
+          <img v-if="userStore.isLogin" class="w-28 md:w-32 h-28 md:h-32 rounded-full" :src="serverURL + userStore.avatarPath"
             ref="avatarPreview">
           <span class="absolute bottom-0 left-1/2 translate-y-full -translate-x-1/2 text-red-500 text-sm text-nowrap"
             :class="{ 'hidden': !isTooLarge }">图片需小于1M</span>
@@ -71,9 +71,11 @@ onDeactivated(() => {
   if (avatarPreview.value?.src) {
     URL.revokeObjectURL(avatarPreview.value.src)
   }
-  avatarPreview.value.src = serverURL + userStore.avatarPath
-  userInfoForm.value.name = userStore.name
-  userInfoForm.value.password = ''
+  if (userStore.isLogin) {
+    avatarPreview.value.src = serverURL + userStore.avatarPath
+    userInfoForm.value.name = userStore.name
+    userInfoForm.value.password = ''
+  }
 })
 
 

@@ -21,44 +21,40 @@ import Header from './components/Header.vue';
 import Nav from './components/Nav.vue';
 import MenuNav from './components/MenuNav.vue';
 import Forum from './views/forum/Forum.vue';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useTemplateRef } from 'vue';
 import Login from './components/Login.vue';
 import { emitter } from '@/utils/emitter';
 import { useUserStore } from './store/user';
 import ForumBanned from './views/forum/ForumBanned.vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 
-onMounted(() => {
-  emitter.emit('observeForum', 0)
-
+onMounted(async () => {
   emitter.on('showLogin', () => {
     dialogFormVisible.value = true
   })
-
   //传入0代表App.vue挂载，因为内容请求都是异步的，所以挂载时
   emitter.on('observeForum', (val) => {
+    console.log(1);
+    
     count = val as number
-    //避免未登录时刷新界面，没有forum元素，却进行监听的报错
     if (document.getElementById('forum')) {
-      // 开始监听
-      console.log(3);
-
       intersectionObserver.observe(document.getElementById('forum') as HTMLElement);
     }
   })
 })
 
 onBeforeUnmount(() => {
-  emitter.all.clear()
+  emitter.off('showLogin')
+  emitter.off('observeForum')
 })
 
-let count:number
-
+let count: number
 //回调函数会在被观察元素进入和离开视口的时候分别调用一次
 const intersectionObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    // console.log(entry);
     if (entry.isIntersecting) {
       if (count == 0) {
         count++
@@ -90,6 +86,14 @@ function unshowMenuNav() {
   isMenuHidden.value = !isMenuHidden.value
   header.value!.isMenuHidden = isMenuHidden.value
 }
+
+watch(() => route.path, () => {
+  if (route.path.substring(0, 5) === '/user') {
+    emitter.emit('loadForum')
+  } else {
+    emitter.emit('observeForum', 0)
+  }
+})
 </script>
 
 <style lang="css" scoped></style>

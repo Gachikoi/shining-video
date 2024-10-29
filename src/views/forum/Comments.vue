@@ -84,7 +84,8 @@ onMounted(() => {
 })
 
 onBeforeMount(() => {
-  emitter.all.clear()
+  emitter.off('loadForum')
+  emitter.off('getComments')
 })
 
 let data = ref<CommentArr>()

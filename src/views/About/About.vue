@@ -41,6 +41,7 @@
           </div>
         </div>
       </div>
+      <div class="w-screen h-96"></div>
       <!-- bottom -->
       <div class="px-6 flex flex-col flex-wrap items-center w-screen max-w-screen-xl space-y-5">
         <h1 class="text-pretty pb-2 border-b-4 border-red-500">视频组组员</h1>

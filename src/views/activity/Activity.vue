@@ -15,7 +15,7 @@
       </H1Container>
       <H1Container title="?">
         <ul class="columns-xs w-full space-y-5 gap-x-5 *:*:shadow-md">
-          <li v-for="{ id, path } in chatPictures" :key="id"><img style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);"
+          <li v-for="{ id, path } in chatPictures" :key="id"><img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);"
               :src="serverURL + path" alt="">
           </li>
         </ul>

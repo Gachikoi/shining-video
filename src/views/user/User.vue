@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import router from '@/router';
+import router from '@/router/router';
 import { onActivated, onBeforeUnmount, onMounted, ref } from 'vue';
 import { emitter } from '@/utils/emitter';
 
@@ -44,7 +44,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  emitter.all.clear()
+  emitter.off('loginOut')
+  emitter.off('loginIn')
 })
 
 const container = ref()

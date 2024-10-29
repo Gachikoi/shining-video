@@ -31,7 +31,7 @@
         <h1 class="pb-2 border-b-4 border-red-500 ">最新排版产出</h1>
       </div>
       <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
-        <img v-for="image in homeDataStore.lastestTypesettings" :key="image.id"
+        <img v-for="image in homeDataStore.lastestTypesettings" :key="image.id" loading="lazy"
           style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
       </div>
     </div>

@@ -10,16 +10,17 @@ import 'element-plus/dist/index.css'
 import '@/style.css'
 
 import App from './App.vue'
-import router from './router'
+import router from './router/router'
+import '@/router/permisstion'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
-const app=createApp(App)
+const app = createApp(App)
 
 app.use(router)
 app.use(pinia)
 app.use(ElementPlus, {
-  locale:zhCn
+  locale: zhCn
 })
 
 app.mount('#app')

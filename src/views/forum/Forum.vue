@@ -6,7 +6,7 @@
         <div class="flex flex-col items-center">
           <div class="flex items-center w-full gap-5">
             <div class="shrink-0">
-              <img class="w-24 lg:w-28 h-24 lg:h-28 rounded-full" :src="serverURL + userStore.avatarPath" alt="">
+              <img v-if="userStore.isLogin" class="w-24 lg:w-28 h-24 lg:h-28 rounded-full" :src="serverURL + userStore.avatarPath" alt="">
             </div>
             <!-- 这里如果用w-full，上方的图片会被挤压（flex布局被挤压），我们必须为它加上shrink-0来避免挤压。或者这里可以换成grow -->
             <div class="flex flex-col gap-2 w-full">
