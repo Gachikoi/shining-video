@@ -14,8 +14,9 @@
                 class=" resize-none outline-none border border-red-500 caret-red-500 rounded-md px-2 py-2 placeholder:text-neutral-400"></textarea>
               <!-- 如果button不加self-end, 它就会自动占满整个父容器的宽度 -->
               <div class="flex justify-between">
-                <span :class="{ 'text-red-500': ifExceedWordCountLimit, 'text-neutral-400': !ifExceedWordCountLimit }">{{
-                  myComment.length }} / 2000字</span>
+                <span
+                  :class="{ 'text-red-500': ifExceedWordCountLimit, 'text-neutral-400': !ifExceedWordCountLimit }">{{
+                    myComment.length }} / 2000字</span>
                 <button @click="sendComment"
                   class="inline-block bg-red-500 text-white rounded-md p-1 px-6 hover:-translate-y-1 hover:shadow-md transition-all disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:bg-red-500/50 disabled:active:bg-red-500/50 active:bg-red-700"
                   ref="submitRef">发送</button>
@@ -36,7 +37,7 @@
 interface myPostComment {
   content: string,
   date: number
-  id:string
+  id: string
 }
 export const key = Symbol() as InjectionKey<Ref<myPostComment[], myPostComment[]>>
 </script>
@@ -67,15 +68,15 @@ async function sendComment() {
   } else {
     try {
       const date = Date.now()
-      const id=nanoid()
-      await reqPostComment({content:myComment.value,date,id})
-      myPostComments.value.push({content:myComment.value,date,id})
-      myComment.value=''
+      const id = nanoid()
+      await reqPostComment({ content: myComment.value, date, id })
+      myPostComments.value.push({ content: myComment.value, date, id })
+      myComment.value = ''
       ElMessage({
         type: 'success',
         message: '评论成功'
       })
-    }catch{}
+    } catch { }
   }
 }
 
@@ -89,7 +90,14 @@ watchPostEffect(() => {
   }
 })
 
-provide(key,myPostComments)
+provide(key, myPostComments)
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.el-dialog__header){
+  padding-right: 0;
+  span{
+    font-size:medium
+  }
+}
+</style>

@@ -6,7 +6,7 @@
       <hr>
       <RouterLink :to="{ path: '/works' }">组员作品</RouterLink>
       <hr>
-      <RouterLink :to="{ path: '/representation' }">拜年祭 / 社刊</RouterLink>
+      <RouterLink :to="{ path: '/representation' }">社刊</RouterLink>
       <hr>
       <RouterLink :to="{ path: '/activity' }">活动</RouterLink>
       <hr>

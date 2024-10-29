@@ -11,13 +11,29 @@
         </div>
       </div>
       <ul class="images">
-        <li><img :src="serverURL+images[images.length - 1].path" :alt="images[images.length - 1].alt"></li>
-        <li v-for="{ id, path, alt } in images" :key="id"><img :src="serverURL+path" :alt="alt"></li>
-        <li><img :src="serverURL+images[0].path" :alt="images[0].alt"></li>
+        <li>
+          <a :href="images[images.length - 1].link" target="_blank"
+            :class="{ 'hasLink': images[images.length - 1].link }">
+            <img :src="serverURL + images[images.length - 1].path" :alt="images[images.length - 1].alt">
+            <h1 :class="{ 'hidden': !images[images.length - 1].title }">{{ images[images.length - 1].title }}</h1>
+          </a>
+        </li>
+        <li v-for="{ id, path, alt, link, title } in images" :key="id">
+          <a :href="link" target="_blank" :class="{ 'hasLink': link }">
+            <img :src="serverURL + path" :alt="alt">
+            <h1 :class="{ 'hidden': !title }">{{ title }}</h1>
+          </a>
+        </li>
+        <li>
+          <a :href="images[0].link" target="_blank" :class="{ 'hasLink': images[0].link }">
+            <img :src="serverURL + images[0].path" :alt="images[0].alt">
+            <h1 :class="{ 'hidden': !images[0].title }">{{ images[0].title }}</h1>
+          </a>
+        </li>
       </ul>
     </div>
     <ul class="bar">
-      <li v-for="(_,_index) in images" :key="_index" :class="{ active: _index == index }"></li>
+      <li v-for="(_, _index) in images" :key="_index" :class="{ active: _index == index }"></li>
     </ul>
   </div>
 </template>
@@ -146,7 +162,7 @@ function autoplay() {
           domImages.style.transition = 'none'
         }, 1000);//定时器时间设置为1000毫秒，与过渡时间相等（需要节流。因为如果两次点击在1000内，则会在被定时器内的回调函数的动画强制拽回index=0时的视图）
       }
-    }, 3000)
+    }, 3500)
   }
 }
 function stopAutoplay() {
@@ -216,15 +232,40 @@ function stopAutoplay() {
       transition: all 1s ease-in-out;
 
       li {
+        flex: 1;
         display: flex;
-        width: 100%;
         justify-content: center;
         align-items: center;
-        width: 1/7;
 
-        img {
+        a {
           height: 98%;
-          box-shadow: 0px 0px 1px 1px rgba($color: #b2b2b247, $alpha: 0.3);
+          position: relative;
+
+          &.hasLink {
+            cursor: pointer;
+          }
+
+          img {
+            height: 100%;
+            box-shadow: 0px 0px 2px 2px rgba($color: #00000047, $alpha: 0.1);
+          }
+
+          h1 {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            line-height: 100%;
+            padding: 20px;
+            padding-right: 35px;
+            color: white;
+            /* drop-shadow-md 转化后的 CSS */
+            filter: drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07)) drop-shadow(0 2px 2px rgba(0, 0, 0, 0.06));
+            background: linear-gradient(to right, rgba($color: #ef4444, $alpha: 0.8), rgba($color: #ef4444, $alpha: 0));
+
+            &.hidden {
+              display: none;
+            }
+          }
         }
       }
     }
@@ -242,7 +283,7 @@ function stopAutoplay() {
       height: 10px;
       background-color: gainsboro;
       border-radius: 10px;
-      box-shadow: 0px 0px 2px 2px rgba($color: #7b7b7b, $alpha: .2);
+      box-shadow: 0px 0px 1px 1px rgba($color: #7b7b7b, $alpha: .2);
       margin-right: 10px;
       transition: all 0.5s ease-in-out;
     }

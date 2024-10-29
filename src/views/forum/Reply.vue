@@ -9,7 +9,8 @@
             <slot name="name"></slot>
             <div class="flex justify-between">
               <slot name="date"></slot>
-              <button class="hover:text-red-500 text-neutral-400 text-sm">删除</button>
+              <button class="hover:text-red-500 text-neutral-400 text-sm" :class="{ 'hidden': userID !== userStore.id }"
+                @click="showConfirmDialog=true">删除</button>
             </div>
           </div>
         </div>
@@ -26,14 +27,47 @@
         <slot name="content"></slot>
         <div class="flex justify-between text-neutral-400 text-sm">
           <slot name="date"></slot>
-          <button class="hover:text-red-500">删除</button>
+          <button class="hover:text-red-500" :class="{ 'hidden': userID !== userStore.id }"
+            @click="showConfirmDialog=true">删除</button>
         </div>
       </div>
     </div>
+    <!-- confirm delete comment and reply dialog -->
+    <el-dialog v-model="showConfirmDialog" title="确认删除？" class="w-[16rem] flex flex-col items-center">
+      <div class="flex justify-center">
+        <div class="flex gap-5">
+          <button @click="showConfirmDialog = false"
+            class="self-center text-white p-2 px-8 bg-red-500 active:bg-red-700 active:disabled:bg-red-500/50 disabled:bg-red-500/50 rounded-md hover:shadow-md disabled:hover:shadow-none hover:-translate-y-1 transition-all cursor-pointer disabled:hover:translate-y-0">否</button>
+          <button @click="deleteReply"
+            class="self-center text-white p-2 px-8 bg-red-500 active:bg-red-700 active:disabled:bg-red-500/50 disabled:bg-red-500/50 rounded-md hover:shadow-md disabled:hover:shadow-none hover:-translate-y-1 transition-all cursor-pointer disabled:hover:translate-y-0">是</button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { reqDeleteReply } from '@/api/comment';
+import { useUserStore } from '@/store/user';
+import { emitter } from '@/utils/emitter';
+import { ElMessage } from 'element-plus';
+import { ref } from 'vue';
+
+const userStore = useUserStore()
+const { userID, replyID, commentID } = defineProps<{ userID: string, replyID: string, commentID: string }>()
+const showConfirmDialog = ref(false)
+
+async function deleteReply() {
+  try {
+    await reqDeleteReply(commentID, replyID)
+    showConfirmDialog.value = false
+    emitter.emit('getComments')
+    ElMessage({
+      type: 'success',
+      message: '删除成功'
+    })
+  } catch { }
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -8,12 +8,10 @@ export const reqLogin = (data: Object) => request.post<LoginResponseData>('/logi
 export interface RegisterResponseData{
   token: string,
   avatarPath: string,
-  id:string
 }
 
 export interface LoginResponseData{
   token: string,
   avatarPath: string,
-  id: string,
   name:string
 }

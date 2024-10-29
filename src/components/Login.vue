@@ -6,7 +6,7 @@
         <el-input v-model="loginForm.email" placeholder="you@example.com" />
       </el-form-item>
       <el-form-item label="密码" id="login-password" prop="password">
-        <el-input v-model="loginForm.password" placeholder="请输入6-20位密码" show-password/>
+        <el-input v-model="loginForm.password" placeholder="请输入6-20位密码" show-password />
       </el-form-item>
       <div class="dialog-footer ">
         <div class="flex justify-around">
@@ -70,6 +70,8 @@ import { UploadFilled } from '@element-plus/icons-vue'
 import { reqLogin, reqRegister, reqCode } from '@/api/login';
 import { useUserStore } from '@/store/user';
 import { ElMessage } from 'element-plus';
+import { jwtDecode } from 'jwt-decode';
+import { emitter } from '@/utils/emitter';
 
 const [dialogFormVisible] = defineModel<boolean>({ required: true })
 
@@ -144,15 +146,17 @@ const isCountdownHidden = ref(true)
 
 async function login() {
   try {
-    const { data: { token, avatarPath, name, id } } = await reqLogin(loginForm.value)
+    const { data: { token, avatarPath, name } } = await reqLogin(loginForm.value)
     userStore.$patch({
-      isLogin:true,
+      isLogin: true,
+      id: (jwtDecode(token) as { id: string }).id,
       token,
       avatarPath,
       name,
-      email:loginForm.value.email
+      email: loginForm.value.email
     })
     dialogFormVisible.value = false
+    emitter.emit('loginIn')
     ElMessage({
       type: 'success',
       message: "登录成功"
@@ -204,18 +208,20 @@ async function register() {
   formData.append('code', registerForm.value.code)
   //我们甚至不用设置content-type，因为axios会自动帮我们设置好
   try {
-    const { data: { token, avatarPath, id } } = await reqRegister(formData)
+    const { data: { token, avatarPath } } = await reqRegister(formData)
     userStore.$patch({
       isLogin: true,
+      id: (jwtDecode(token) as { id: string }).id,
       token: token,
       avatarPath: avatarPath,
       name: registerForm.value.name,
       email: registerForm.value.email
     })
     dialogFormVisible.value = false
+    emitter.emit('loginIn')
     ElMessage({
       type: 'success',
-      message:"注册成功"
+      message: "注册成功"
     })
   } catch { }
 }

@@ -23,7 +23,9 @@ export type LastestTypesettingArr = LastestTypesetting[]
 export interface CarouselImage{
   "id": string,
   "path": string,
-  "alt":string
+  "alt": string,
+  link?: string,
+  title?:string
 }
 
 export type CarouselImageArr=CarouselImage[]

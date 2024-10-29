@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center" ref="container">
     <div class="flex flex-col items-center gap-5 w-screen max-w-screen-xl px-6">
       <h2>个人信息修改</h2>
       <!-- 此处w-full （设定明确的宽度，防止第二个子容器撑开）-->
@@ -54,6 +54,7 @@ import { onDeactivated, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { reqChangeUserInfo } from '@/api/user';
 import { watch } from 'vue';
+import { emitter } from '@/utils/emitter';
 
 const userStore = useUserStore()
 const nameRef = ref()
@@ -63,6 +64,16 @@ const passwordRef = ref()
 const isTooLarge = ref(false)
 const isFileChoosed = ref(false)
 const isSubmitButtonDisabled = ref(true)
+const container = ref()
+
+emitter.on('loginOut', () => {
+  (container.value as HTMLElement).classList.add('hidden')
+})
+
+emitter.on('loginIn', () => {
+  (container.value as HTMLElement).classList.remove('hidden')
+  userInfoForm.value.name=userStore.name
+})
 
 const userInfoForm = ref({
   password: '',
@@ -116,8 +127,6 @@ async function changeUserInfo() {
       userStore.avatarPath = data
       changeAvatarRef.value.src = serverURL + userStore.avatarPath
     }
-    console.log(userInfoForm.value.name);
-
     userStore.name = userInfoForm.value.name
     ElMessage({
       type: 'success',

@@ -15,7 +15,7 @@ export default createRouter({
       component: () => import("@/views/works/Works.vue"),
     },
     {
-      name:'拜年祭 / 社刊',
+      name:'社刊',
       path: '/representation',
       component: () => import("@/views/representation/Representation.vue"),
     },

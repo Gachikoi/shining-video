@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import { emitter } from "@/utils/emitter";
 
 export const useUserStore = defineStore('User', () => {
   const router = useRouter()
-
-  const isLogin=ref(false)
+  
+  const isLogin = ref(false)
+  const id=ref('')
   const name = ref('')
   const email=ref('')
   const avatarPath = ref('')
@@ -24,11 +26,10 @@ export const useUserStore = defineStore('User', () => {
       message: '登出成功'
     })
     router.push('/home')
-    console.log(1);
-    
+    emitter.emit('loginOut')
   }
 
-  return {isLogin,name,email,avatarPath,token,loginOut}
+  return {isLogin,id,name,email,avatarPath,token,loginOut}
 }, {
   persist:true
 })

@@ -2,7 +2,9 @@ import request from "@/utils/request";
 
 export const reqGetComments = () => request.get<CommentArr>('/getComments')
 export const reqPostComment = (CommentData: Object) => request.post('/postComment', CommentData)
-export const reqPostReply=(ReplyData:Object)=>request.post('/postReply',ReplyData)
+export const reqPostReply = (ReplyData: Object) => request.post('/postReply', ReplyData)
+export const reqDeleteReply = (commentID: string,replyID:string) => request.delete('/deleteReply/' + commentID+"/"+replyID)
+export const reqDeleteComment = (commentID: string) => request.delete('/deleteComment/' + commentID)
 
 export interface Comment{
   id: string,
