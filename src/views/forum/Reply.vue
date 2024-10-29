@@ -10,7 +10,7 @@
             <div class="flex justify-between">
               <slot name="date"></slot>
               <button class="hover:text-red-500 text-neutral-400 text-sm" :class="{ 'hidden': userID !== userStore.id }"
-                @click="showConfirmDialog=true">删除</button>
+                @click="showConfirmDialog = true">删除</button>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="flex justify-between text-neutral-400 text-sm">
           <slot name="date"></slot>
           <button class="hover:text-red-500" :class="{ 'hidden': userID !== userStore.id }"
-            @click="showConfirmDialog=true">删除</button>
+            @click="showConfirmDialog = true">删除</button>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reqDeleteReply } from '@/api/comment';
+import { reqDeleteReply } from '@/api/forum';
 import { useUserStore } from '@/store/user';
 import { emitter } from '@/utils/emitter';
 import { ElMessage } from 'element-plus';
@@ -66,7 +66,7 @@ async function deleteReply() {
       type: 'success',
       message: '删除成功'
     })
-  } catch { }
+  } catch {}
 }
 </script>
 

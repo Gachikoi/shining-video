@@ -49,7 +49,8 @@ import { serverURL } from '@/api/config';
 import { provide, ref, watchPostEffect, type InjectionKey, type Ref } from 'vue';
 import Comments from './Comments.vue';
 import { ElMessage } from 'element-plus';
-import { reqPostComment } from '@/api/comment';
+import { reqPostComment } from '@/api/forum';
+
 
 const userStore = useUserStore()
 const myComment = ref('')
@@ -81,23 +82,24 @@ async function sendComment() {
 }
 
 watchPostEffect(() => {
-  if (myComment.value.length >= 2000) {
-    submitRef.value.disabled = true
-    ifExceedWordCountLimit.value = true
-  } else {
-    submitRef.value.disabled = false
-    ifExceedWordCountLimit.value = false
-  }
+    if (myComment.value.length >= 2000) {
+      submitRef.value.disabled = true
+      ifExceedWordCountLimit.value = true
+    } else {
+      submitRef.value.disabled = false
+      ifExceedWordCountLimit.value = false
+    }
 })
 
 provide(key, myPostComments)
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-dialog__header){
+:deep(.el-dialog__header) {
   padding-right: 0;
-  span{
-    font-size:medium
+
+  span {
+    font-size: medium
   }
 }
 </style>

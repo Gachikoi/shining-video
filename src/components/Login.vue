@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import { UploadFilled } from '@element-plus/icons-vue'
 import { reqLogin, reqRegister, reqCode } from '@/api/login';
 import { useUserStore } from '@/store/user';
@@ -161,6 +161,10 @@ async function login() {
       type: 'success',
       message: "登录成功"
     })
+    //这里await是为了等待userStore.isLogin的改动同步到dom，使forum组件挂载。
+    //如果组件不挂载，observeForum事件就无法拿到forum元素，相当于无法触发。
+    await nextTick()
+    emitter.emit('observeForum',1)
   } catch { }
 }
 
@@ -223,6 +227,10 @@ async function register() {
       type: 'success',
       message: "注册成功"
     })
+    //这里await是为了等待userStore.isLogin的改动同步到dom，使forum组件挂载。
+    //如果组件不挂载，observeForum事件就无法拿到forum元素，相当于无法触发。
+    await nextTick()
+    emitter.emit('observeForum',1)
   } catch { }
 }
 

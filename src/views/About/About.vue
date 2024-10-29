@@ -2,12 +2,12 @@
   <div class="flex justify-center">
     <div class="flex flex-col items-center space-y-10">
       <!-- top -->
-      <div class="px-6 flex flex-col items-center w-screen max-w-screen-xl *:space-y-5">
+      <div class="px-6 flex flex-col items-center w-screen max-w-screen-xl">
         <h1 class="pb-2 border-b-4 border-red-500">关于我们</h1>
-        <p class="w-1/2 m-6 mb-0 tracking-wide leading-loose text-center">
+        <p class="max-w-screen-md m-6 mb-0 tracking-wider leading-loose text-justify">
           晒你动漫社视频组官网旨在展示组内文化、作品、活动与历史。
         </p>
-        <p class="w-1/2 m-6 mt-0 tracking-wide leading-relaxed text-center">
+        <p class="max-w-screen-md m-6 mt-0 tracking-wider leading-loose text-justify">
           我们希望为视频组成员提供一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个
           一个一个一个。
         </p>

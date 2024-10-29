@@ -36,14 +36,14 @@
 
 <script lang="ts" setup>
 import Comment from './Comment.vue';
-import { reqGetComments } from '@/api/comment';
-import { inject, useTemplateRef } from 'vue';
+import { reqGetComments } from '@/api/forum';
+import { inject, onBeforeMount, onMounted, useTemplateRef } from 'vue';
 import { key } from './Forum.vue'
 import { useUserStore } from '@/store/user';
 import { serverURL } from '@/api/config';
 import { emitter } from '@/utils/emitter';
 import { ref } from 'vue';
-import { type CommentArr } from '@/api/comment';
+import { type CommentArr } from '@/api/forum';
 import { type ComponentPublicInstance } from 'vue';
 import { nextTick } from 'vue';
 
@@ -53,34 +53,45 @@ type CommentInstance = ComponentPublicInstance<typeof Comment>
 const commentRefs = ref<CommentInstance[]>([])
 const myPostCommentRefs = ref<CommentInstance[]>([])
 
+//mitt最佳实践：在组件挂载后订阅事件，组件被销毁后退订事件。否则在组件重新挂载后，当事件触发时，回调函数内的语句将被执行两次。
+onMounted(() => {
+  emitter.on('loadForum', async () => {
+    try {
+      console.log(1);
+      const result = await reqGetComments()
+      data.value = result.data
+    } catch { }
+  })
+
+  emitter.on('getComments', async () => {
+    try {
+      const result = await reqGetComments()
+      data.value = result.data
+      if (myPostComments?.value) {
+        myPostComments.value = []
+      }
+      await nextTick()
+      for (const commentRef of commentRefs.value) {
+        //注意，这里commentRef和myPostReplies不用再解包了，因为ref内部嵌套的对象会被自动解包
+        //而且我们安装了插件后，但凡需要.value解包的，系统都会自动提示。
+        commentRef.myPostReplies = []
+      }
+      for (const myPostCommentRef of myPostCommentRefs.value) {
+        myPostCommentRef.myPostReplies = []
+      }
+    } catch { }
+  })
+})
+
+onBeforeMount(() => {
+  emitter.all.clear()
+})
+
 let data = ref<CommentArr>()
-try {
-  const result = await reqGetComments()
-  data.value = result.data
-} catch { }
 
 const comments = data
 
 const myPostComments = inject(key)
-
-emitter.on('getComments', async () => {
-  try {
-    const result = await reqGetComments()
-    data.value = result.data
-    if (myPostComments?.value) {
-      myPostComments.value = []
-    }
-    await nextTick()
-    for (const commentRef of commentRefs.value) {
-      //注意，这里commentRef和myPostReplies不用再解包了，因为ref内部嵌套的对象会被自动解包
-      //而且我们安装了插件后，但凡需要.value解包的，系统都会自动提示。
-      commentRef.myPostReplies = []
-    }
-    for (const myPostCommentRef of myPostCommentRefs.value) {
-      myPostCommentRef.myPostReplies = []
-    }
-  } catch { }
-})
 </script>
 
 <style lang="scss" scoped></style>

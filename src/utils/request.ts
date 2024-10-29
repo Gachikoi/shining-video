@@ -18,7 +18,7 @@ request.interceptors.request.use((config) => {
 
 request.interceptors.response.use((response) => {
   return response
-}, (error => {
+} , (error => {
   let status = error.status
   let data = error.response.data
   switch (status) {
@@ -40,6 +40,8 @@ request.interceptors.response.use((response) => {
         message: data
       })
   }
+  // 这里如果不继续抛出一个错误，后续在其他程序中就无法利用服务器是否正确执行来对逻辑进行分别处理
+  return Promise.reject(error)
 }))
 
 export default request

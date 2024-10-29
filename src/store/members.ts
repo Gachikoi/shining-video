@@ -10,28 +10,36 @@ export const useMembersStore = defineStore('Members', () => {
   const otherMembers = ref<MemberArr>([])
 
   async function getActiveDuty() {
-    const result: AxiosResponse<MemberArr> = await reqMemberArr('activeDuty')
-    if (result.status == 200) {
-      activeDuty.value = result.data
-    }
+    try {
+      const result: AxiosResponse<MemberArr> = await reqMemberArr('activeDuty')
+      if (result.status == 200) {
+        activeDuty.value = result.data
+      }
+    } catch { }
   }
   async function getHistoricalDuty() {
-    const result: AxiosResponse<MemberArr> = await reqMemberArr('historicalDuty')
-    if (result.status == 200) {
-      historicalDuty.value = result.data
-    }
+    try {
+      const result: AxiosResponse<MemberArr> = await reqMemberArr('historicalDuty')
+      if (result.status == 200) {
+        historicalDuty.value = result.data
+      }
+    } catch { }
   }
   async function getFounder() {
-    const result: AxiosResponse<MemberArr> = await reqMemberArr('founder')
-    if (result.status == 200) {
-      founder.value = result.data
-    }
+    try {
+      const result: AxiosResponse<MemberArr> = await reqMemberArr('founder')
+      if (result.status == 200) {
+        founder.value = result.data
+      }
+    } catch { }
   }
   async function getOtherMembers() {
-    const result: AxiosResponse<MemberArr> = await reqMemberArr('otherMembers')
-    if (result.status == 200) {
-      otherMembers.value = result.data
-    }
+    try {
+      const result: AxiosResponse<MemberArr> = await reqMemberArr('otherMembers')
+      if (result.status == 200) {
+        otherMembers.value = result.data
+      }
+    } catch { }
   }
 
   return { activeDuty, historicalDuty, founder, otherMembers, getActiveDuty, getHistoricalDuty, getFounder, getOtherMembers }

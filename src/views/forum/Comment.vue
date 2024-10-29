@@ -12,7 +12,8 @@
             <slot name="date"></slot>
             <button class="hover:text-red-500" @click="showMyReply = !showMyReply, scrollToMyReply()">回复</button>
           </div>
-          <button :class="{'hidden':userID!==userStore.id}" class="hover:text-red-500" @click="showConfirmDialog=true">删除</button>
+          <button :class="{ 'hidden': userID !== userStore.id }" class="hover:text-red-500"
+            @click="showConfirmDialog = true">删除</button>
           <!-- confirm delete comment and reply dialog -->
           <el-dialog v-model="showConfirmDialog" title="确认删除？" class="w-[16rem] flex flex-col items-center">
             <div class="flex justify-center">
@@ -26,7 +27,7 @@
           </el-dialog>
         </div>
         <!-- 这里根据不同情况，采用了两个包含部分重叠对象的数组分别进行遍历。这种操作不会使vue丢弃现有的dom并重新渲染整个列表，因此仍然是一种高效的操作 -->
-        <Reply v-for="{ id, date, user: { avatarPath, name,id:userID }, content } in renderReplies" :commentID
+        <Reply v-for="{ id, date, user: { avatarPath, name, id: userID }, content } in renderReplies" :commentID
           :replyID="id" :key="id" :userID class="mt-5 md:mt-8">
           <template #avatar>
             <img class="w-12 md:w-16 h-12 md:h-16 rounded-full" :src="serverURL + avatarPath" alt="">
@@ -61,7 +62,7 @@
         <button @click="[showAllReplies = true, showRetractButton = true]"
           class="self-start text-neutral-400 mt-2 hover:text-red-500"
           :class="{ 'hidden': showAllReplies || replies.length == 0 }">共{{
-          replies.length + myPostReplies.length }}条回复，点击查看</button>
+            replies.length + myPostReplies.length }}条回复，点击查看</button>
         <button @click="[showAllReplies = false, showRetractButton = false]"
           class="self-start text-neutral-400 mt-2 hover:text-red-500"
           :class="{ 'hidden': !showRetractButton }">收起</button>
@@ -93,12 +94,12 @@
 import { serverURL } from '@/api/config';
 import Reply from './Reply.vue';
 import { computed, ref, watchPostEffect, nextTick, watch } from 'vue'
-import type { ReplyArr } from '@/api/comment';
+import type { ReplyArr } from '@/api/forum';
 import { useUserStore } from '@/store/user';
 import { ElMessage } from 'element-plus';
-import { reqPostReply } from '@/api/comment';
+import { reqPostReply } from '@/api/forum';
 import { nanoid } from 'nanoid';
-import { reqDeleteComment } from '@/api/comment';
+import { reqDeleteComment } from '@/api/forum';
 import { emitter } from '@/utils/emitter';
 
 const showConfirmDialog = ref(false)
@@ -115,7 +116,7 @@ async function deleteComment() {
   } catch { }
 }
 //vue3.5及以上版本中，直接解构defineprops不会丢失响应式
-const { replies = [], commentID,userID } = defineProps<{ replies?: ReplyArr, commentID: string,userID:string }>()
+const { replies = [], commentID, userID } = defineProps<{ replies?: ReplyArr, commentID: string, userID: string }>()
 //下面这种方法无法保持replies的响应式
 // const partialReplies = replies.slice(0, 2)
 //如果想要保持响应式需要用到计算属性
@@ -187,12 +188,7 @@ watchPostEffect(() => {
   }
 })
 
-watch(myPostReplies, () => {
-  console.log(myPostReplies.value);
-  
-},{deep:true})
-
-defineExpose({myPostReplies})
+defineExpose({ myPostReplies })
 </script>
 
 <style lang="scss" scoped></style>

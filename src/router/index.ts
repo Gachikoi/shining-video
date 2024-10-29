@@ -32,7 +32,24 @@ export default createRouter({
     {
       name: '个人中心',
       path: '/user',
-      component:()=>import("@/views/user/User.vue")
+      component: () => import("@/views/user/User.vue"),
+      children: [
+        {
+          name: '更改用户信息',
+          path: 'changeUserInfo',
+          component:()=>import("@/views/user/changeUserInfo/ChangeUserInfo.vue")
+        },
+        {
+          name: '提交成员信息',
+          path: 'submitMemberInfo',
+          component: () => import("@/views/user/submitMemberInfo/SubmitMemberInfo.vue")
+        },
+        {
+          name: '提交作品信息',
+          path: 'submitWorksInfo',
+          component: () => import("@/views/user/submitWorksInfo/SubmitWorksInfo.vue")
+        }
+      ]
     },
     {
       path: '/',
