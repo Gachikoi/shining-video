@@ -12,7 +12,7 @@
         </RouterLink>
         <RouterLink :to="{ path: '/user/submitWorksInfo' }"
           class="*:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all">
-          <div class="text-center">提交作品信息</div>
+          <div class="text-center">编辑作品信息</div>
         </RouterLink>
       </div>
       <RouterView class="w-full">

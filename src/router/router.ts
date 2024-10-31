@@ -47,7 +47,7 @@ export default createRouter({
         {
           name: '提交作品信息',
           path: 'submitWorksInfo',
-          component: () => import("@/views/user/submitWorksInfo/SubmitWorksInfo.vue")
+          component: () => import("@/views/user/editWorksInfo/EditWorksInfo.vue")
         }
       ]
     },

@@ -19,6 +19,4 @@ const worksStore = useWorksStore()
 onBeforeMount(async () => {
  await worksStore.getWorksInfo()
 })
-</script>
-
-<style lang="scss" scoped></style>
+</script>]
