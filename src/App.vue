@@ -4,7 +4,7 @@
     @unshow-menu-nav="unshowMenuNav"></MenuNav>
   <Nav class="hidden md:block"></Nav>
   <router-view class="mt-10" v-slot="{ Component }">
-    <keep-alive>
+    <keep-alive exclude="User">
       <component :is="Component" />
     </keep-alive>
   </router-view>
@@ -40,7 +40,6 @@ onMounted(async () => {
   emitter.on('observeForum', async (val) => {
     await nextTick()
     count = val as number
-    console.log(1);
     intersectionObserver.observe(document.getElementById('forum') as HTMLElement)
   })
   finishEmitterOn.value = true
@@ -55,8 +54,6 @@ let finishEmitterOn = ref(false)
 let count: number
 //回调函数会在被观察元素进入和离开视口的时候分别调用一次
 const intersectionObserver = new IntersectionObserver((entries) => {
-  console.log(2);
-  
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       if (count == 0) {
@@ -92,15 +89,11 @@ function unshowMenuNav() {
 
 watch(() => userStore.isLogin, () => {
   if (userStore.isLogin) {
-    console.log(2);
-
     emitter.emit('observeForum', 1)
   }
 })
 watch(finishEmitterOn, () => {
   if (userStore.isLogin) {
-    console.log(2);
-
     emitter.emit('observeForum', 0)
   }
 })

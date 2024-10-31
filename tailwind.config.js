@@ -6,7 +6,9 @@ export default {
   ],
   theme: {
     extend: {
-      
+      boxShadow: {
+        'inner-custom': 'inset 0px 0px 4px 4px rgb(0 0 0 / 0.05)'
+      }
     },
   },
   plugins: [],

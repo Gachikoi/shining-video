@@ -13,6 +13,7 @@ export const useUserStore = defineStore('User', () => {
   const email=ref('')
   const avatarPath = ref('')
   const token = ref('')
+  const permission=ref(false)
   
   function loginOut() {
     isLogin.value = false
@@ -20,7 +21,7 @@ export const useUserStore = defineStore('User', () => {
     email.value = ''
     avatarPath.value = ''
     token.value = ''
-    isLogin.value = false
+    permission.value=false
     ElMessage({
       type: 'success',
       message: '登出成功'
@@ -29,7 +30,7 @@ export const useUserStore = defineStore('User', () => {
     emitter.emit('loginOut')
   }
 
-  return {isLogin,id,name,email,avatarPath,token,loginOut}
+  return {isLogin,id,name,email,avatarPath,token,permission,loginOut}
 }, {
   persist:true
 })

@@ -17,6 +17,7 @@
             <span>活动</span>
           </RouterLink>
           <RouterLink :to="{ path: '/about' }" class="*:hover:-translate-y-1 *:hover:drop-shadow-md *:transition-all">
+            <!-- transform不对非替换的行内元素有效，但是这里对span生效了，这时因为flex布局将span转换为了近似于inline-block的元素 -->
             <span>关于我们</span>
           </RouterLink>
         </div>

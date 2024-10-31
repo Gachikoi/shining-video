@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center gap-5">
     <h2>个人信息修改</h2>
     <!-- 此处w-full （设定明确的宽度，防止第二个子容器撑开）-->
-    <div class="flex justify-center w-full *:flex *:flex-col gap-5 sm:gap-20">
+    <div class="flex justify-center w-full *:flex *:flex-col gap-5 md:gap-8 lg:gap-20">
       <div class="items-center gap-6">
         <div class="relative w-28 md:w-32">
           <img v-if="userStore.isLogin" class="w-28 md:w-32 h-28 md:h-32 rounded-full" :src="serverURL + userStore.avatarPath"
@@ -21,20 +21,20 @@
           <div class="relative">
             <span class="text-nowrap">昵称</span>
             <!-- 以及两个input的min-w-0 （input默认min-w-auto，且有默认的最小尺寸，shrink不生效。设置min-w-0使shrink生效） -->
-            <input class="peer/name px-4 py-1 border border-black/30 caret-black/30 rounded-md min-w-0" type="text"
+            <input :class="{ 'border-red-500': !isNameValid }" class="peer/name px-4 py-1 border border-black/30 caret-black/30 rounded-md min-w-0" type="text"
               v-model.trim="userInfoForm.name" required ref="nameRef">
             <span
-              class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-red-500 hidden peer-invalid/name:inline-block text-sm">昵称不能为空</span>
+              class="absolute bottom-0 left-[52px] translate-y-full text-red-500 hidden peer-invalid/name:inline-block text-sm">昵称不能为空</span>
           </div>
           <div class="relative">
             <span class="text-nowrap">密码</span>
             <!-- 一个也不能少，否则input将会撑开父容器 -->
-            <input
+            <input :class="{ 'border-red-500': !isPasswordValid}"
               class="peer/password px-4 py-1 border border-black/30 caret-black/30 rounded-md min-w-0 placeholder:text-neutral-400"
               type="password" placeholder="请输入新密码" v-model="userInfoForm.password" minlength="6" maxlength="20"
               ref="passwordRef">
             <span
-              class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full text-red-500 hidden peer-invalid/password:inline-block text-sm">密码长度为6到20位</span>
+              class="absolute bottom-0 left-[52px] translate-y-full text-red-500 hidden peer-invalid/password:inline-block text-sm">密码长度为6到20位</span>
           </div>
         </div>
         <button @click="changeUserInfo"
@@ -48,10 +48,11 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
 import { serverURL } from '@/api/config';
-import { onDeactivated, ref } from 'vue';
+import {  onBeforeUnmount, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { reqChangeUserInfo } from '@/api/user';
 import { watch } from 'vue';
+import { emitter } from '@/utils/emitter';
 
 const userStore = useUserStore()
 const nameRef = ref()
@@ -61,13 +62,15 @@ const passwordRef = ref()
 const isTooLarge = ref(false)
 const isFileChoosed = ref(false)
 const isSubmitButtonDisabled = ref(true)
+const isNameValid = ref(true)
+const isPasswordValid=ref(true)
 
 const userInfoForm = ref({
   password: '',
   name: userStore.name
 })
 
-onDeactivated(() => {
+onBeforeUnmount(() => {
   if (avatarPreview.value?.src) {
     URL.revokeObjectURL(avatarPreview.value.src)
   }
@@ -115,7 +118,10 @@ async function changeUserInfo() {
       userStore.avatarPath = data
       changeAvatarRef.value.src = serverURL + userStore.avatarPath
     }
+    emitter.emit('loadForum')
     userStore.name = userInfoForm.value.name
+    isFileChoosed.value=false
+    isSubmitButtonDisabled.value=true
     ElMessage({
       type: 'success',
       message: "修改成功"
@@ -124,7 +130,19 @@ async function changeUserInfo() {
 }
 
 watch([userInfoForm, isTooLarge, isFileChoosed], () => {
-  if (!isTooLarge.value && passwordRef.value.checkValidity() && userInfoForm.value.name !== '' && (isFileChoosed.value || userInfoForm.value.password !== '' || userInfoForm.value.name !== userStore.name)) {
+  if (passwordRef.value.checkValidity()) {
+    isPasswordValid.value=true
+  } else {
+    isPasswordValid.value=false
+    return
+  }
+  if (userInfoForm.value.name !== '') {
+    isNameValid.value=true
+  } else {
+    isNameValid.value=false
+    return
+  }
+  if (!isTooLarge.value  && (isFileChoosed.value || userInfoForm.value.password !== '' || userInfoForm.value.name !== userStore.name)) {
     isSubmitButtonDisabled.value = false
   } else {
     isSubmitButtonDisabled.value = true

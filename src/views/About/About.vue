@@ -20,8 +20,8 @@
           <h1 class=" text-center pb-2 border-b-4 border-red-500">
             视频组官网于2024年建成并开始运营</h1>
           <div class="flex flex-col-reverse">
-            <Card v-for="{ id, path, name, contact,  title, bililink } in membersStore.activeDuty" :key="id"
-              :item="{ path, name, contact, title, bililink }"></Card>
+            <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.activeDuty" :key="id"
+              :item="{ path, name, contact, title, bililink }"></MemberCard>
           </div>
           <h2 class="text-center font-mono text-xl font-bold text-pretty">特别感谢</h2>
           <p class="text-center">暂无</p>
@@ -31,13 +31,13 @@
           <h1 class="text-center pb-2 border-b-4 border-red-500">
             视频组于2017年成立并开始活动</h1>
           <div class="flex flex-wrap justify-center">
-            <Card v-for="{ id, path, name, contact, title, bililink } in membersStore.founder" :key="id"
-              :item="{ path, name, contact, title, bililink }"></Card>
+            <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.founder" :key="id"
+              :item="{ path, name, contact, title, bililink }"></MemberCard>
           </div>
           <hr class="border-2 w-10/12">
           <div class="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-            <Card v-for="{ id, path, name, contact, title, bililink } in membersStore.historicalDuty" :key="id"
-              :item="{ path, name, contact, title, bililink }"></Card>
+            <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.historicalDuty" :key="id"
+              :item="{ path, name, contact, title, bililink }"></MemberCard>
           </div>
         </div>
       </div>
@@ -46,8 +46,8 @@
       <div class="px-6 flex flex-col flex-wrap items-center w-screen max-w-screen-xl space-y-5">
         <h1 class="text-pretty pb-2 border-b-4 border-red-500">视频组组员</h1>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <Card v-for="{ id, path, name, contact, title, bililink } in membersStore.otherMembers" :key="id"
-            :item="{ path, name, contact, title, bililink }" loading="lazy"></Card>
+          <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.otherMembers" :key="id"
+            :item="{ path, name, contact, title, bililink }" loading="lazy"></MemberCard>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import Card from '@/views/about/Card.vue';
+import MemberCard from '@/views/about/MemberCard.vue';
 import { useMembersStore } from '@/store/members';
 
 const membersStore = useMembersStore()
@@ -67,9 +67,9 @@ membersStore.getOtherMembers()
 //是一种掩耳盗铃的懒加载方式。
 //正确的做法是在router中配饰scrollBehavior。其中savedPosition就是刷新前浏览器为我们自动保存的scroll值，我们只需要一律返回0就好。
 // onMounted(() => {
-  // setTimeout(() => {   
-  // document.documentElement.scrollTop = 0;
-  // }, 0);
+// setTimeout(() => {
+// document.documentElement.scrollTop = 0;
+// }, 0);
 // })
 </script>
 

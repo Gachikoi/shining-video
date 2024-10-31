@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-10">
-    <Carousel v-if="homeDataStore.carouselImages.length!=0" class="px-6 w-screen max-w-screen-xl"
+    <Carousel v-if="homeDataStore.carouselImages.length != 0" class="px-6 w-screen max-w-screen-xl"
       :images="homeDataStore.carouselImages" width="100%" border-radius="0" :shadow-image="true" aspect-ratio="2.5">
     </Carousel>
     <div class="flex flex-col items-center w-screen max-w-screen-xl">
@@ -20,19 +20,23 @@
       <div
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
         <a class="space-y-2 hover:text-red-500 active:text-red-500"
-          v-for="{id,link,path,title} in homeDataStore.lastestVideos" :key="id" :href="link" target="_blank">
-          <img class="rounded-xl w-full" :src="serverURL+path">
+          v-for="{ id, link, path, title } in homeDataStore.lastestVideos" :key="id" :href="link" target="_blank">
+          <img class="rounded-xl w-full" :src="serverURL + path">
           <p class="text-center text-pretty line-clamp-2 tracking-wide">{{ title }}</p>
         </a>
-      </div>=
+      </div>
     </div>
     <div class="flex flex-col w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
         <h1 class="pb-2 border-b-4 border-red-500 ">最新排版产出</h1>
       </div>
       <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
-        <img v-for="image in homeDataStore.lastestTypesettings" :key="image.id" loading="lazy"
-          style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
+        <!-- a是行内块元素，默认无法在内部装下block元素，因此我们要讲a转换为block元素 -->
+         <!-- workscard中的a不用转换是因为父元素设置了flex，a已经是flex元素了 -->
+        <a class="block" v-for="image in homeDataStore.lastestTypesettings" :key="image.id" :href="serverURL + image.path"
+          target="_blank">
+          <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
+        </a>
       </div>
     </div>
   </div>

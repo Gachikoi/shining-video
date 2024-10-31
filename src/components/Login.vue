@@ -146,14 +146,15 @@ const isCountdownHidden = ref(true)
 
 async function login() {
   try {
-    const { data: { token, avatarPath, name } } = await reqLogin(loginForm.value)
+    const { data: { token, avatarPath, name,permission=false } } = await reqLogin(loginForm.value)
     userStore.$patch({
       isLogin: true,
       id: (jwtDecode(token) as { id: string }).id,
       token,
       avatarPath,
       name,
-      email: loginForm.value.email
+      email: loginForm.value.email,
+      permission
     })
     dialogFormVisible.value = false
     emitter.emit('loginIn')
@@ -208,14 +209,15 @@ async function register() {
   formData.append('code', registerForm.value.code)
   //我们甚至不用设置content-type，因为axios会自动帮我们设置好
   try {
-    const { data: { token, avatarPath } } = await reqRegister(formData)
+    const { data: { token, avatarPath,permission=false } } = await reqRegister(formData)
     userStore.$patch({
       isLogin: true,
       id: (jwtDecode(token) as { id: string }).id,
-      token: token,
-      avatarPath: avatarPath,
+      token,
+      avatarPath,
       name: registerForm.value.name,
-      email: registerForm.value.email
+      email: registerForm.value.email,
+      permission
     })
     dialogFormVisible.value = false
     emitter.emit('loginIn')

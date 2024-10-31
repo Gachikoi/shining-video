@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center bg-stone-50">
-    <div class="max-w-screen-xl w-screen flex flex-col gap-5 p-6 text-stone-900 font-sans">
+  <div class="flex justify-center bg-neutral-50">
+    <div class="max-w-screen-xl w-screen flex flex-col gap-5 p-6 text-neutral-900 font-sans">
       <div class="hidden md:flex flex-row *:flex-1 *:basis-4/12 divide-x ">
         <div class="pr-5">
           <h2 class="mb-6 text-2xl font-mono font-bold"><span
