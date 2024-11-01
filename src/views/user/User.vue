@@ -30,9 +30,6 @@ const container = ref()
 
 onMounted(() => {
   router.push({ path: '/user/changeUserInfo' })
-})
-
-onMounted(() => {
   emitter.on('loginOut', () => {
     (container.value as HTMLElement).classList.add('hidden')
   })

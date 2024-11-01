@@ -4,3 +4,4 @@ import request from "@/utils/request"
 export const reqChangeUserInfo = (data: FormData) => request.patch<string | undefined>('/user/userInfo', data)
 export const reqSubmitMemberInfo = (data: Object) => request.patch('/user/memberInfo/submit', data)
 export const reqSubmitWorksInfo = (data: FormData) => request.post('/user/worksInfo/submit', data)
+export const reqUpdatePermission=()=>request.get('/user/permission')

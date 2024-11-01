@@ -18,15 +18,16 @@
     </div>
     <div class="flex flex-col min-w-0 w-full gap-5 *:rounded-md *:bg-white *:border *:border-neutral-200">
       <!-- 视频作品 -->
-      <div class="relative w-full">
+      <div class="relative w-full" v-if="works.videos.length !== 0 || editable">
         <div
           class="overflow-x-auto w-full min-h-36 flex *:shrink-0 gap-5 p-5 snap-x *:snap-center sm:*:snap-start sm:*:scroll-ml-5">
           <a v-for="({ title, path, link, id }, index) in works.videos" :href="link" target="_blank" :key="id"
             class="relative w-56  hover:text-red-500 active:text-red-500 hover:-translate-y-1 transition-all ">
             <!-- 展示服务器数据图片 -->
-            <img :loading="loading(index)" class="rounded-xl mb-2" :src="serverURL + path" alt="">
+            <img :loading="loading(index)" :class="{ 'hidden': index >= immutableWorks.videos.length }"
+              class="rounded-xl mb-2" :src="serverURL + path" alt="">
             <!-- 展示本地数据图片 -->
-            <img class="rounded-xl mb-2" :class="{ 'hidden': !editable }" :src="path" alt="">
+            <img class="rounded-xl mb-2" :class="{ 'hidden': !editable || index < immutableWorks.videos.length }" :src="path" alt="">
             <p class="text-center text-pretty">{{ title }}</p>
             <!-- 删除按键 -->
             <svg @click="deleteVideo($event, id)" :class="{ 'hidden': !editable || !isEditing }"
@@ -71,9 +72,9 @@
         </div>
       </div>
       <!-- 排版作品 -->
-      <div class="relative">
+      <div class="relative" v-if="works.typesettings.length !== 0 || editable">
         <div class=" overflow-x-auto flex flex-col sm:flex-row *:shrink-0 gap-5 h-[30rem] sm:h-72 md:h-80 lg:h-96 p-5">
-          <a class="relative" v-for="({ path, id }, index) in works.typesettings" :href="truePath(index,path)"
+          <a class="relative" v-for="({ path, id }, index) in works.typesettings" :href="truePath(index, path)"
             target="_blank" :key="id">
             <!-- 展示服务器数据中的图片 -->
             <img :loading="loading(index)" class="h-full"
@@ -126,7 +127,7 @@ const worksDefault: Works = { name: userStore.name, avatarPath: userStore.avatar
 
 <script lang="ts" setup>
 import { serverURL } from '@/api/config';
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref } from 'vue';
 import { useRefHistory } from '@vueuse/core';
 import { type Works } from '@/api/works';
 import { useUserStore } from '@/store/user';
@@ -134,9 +135,10 @@ import { ElLoading, ElMessage } from 'element-plus';
 import { reqSubmitWorksInfo } from '@/api/user';
 import { nanoid } from 'nanoid';
 import { useWorksStore } from '@/store/works';
+import { emitter } from '@/utils/emitter';
 
 //不能将setup中的本地变量赋值给defineProps的默认值
-const { editable = false, works: immutableWorks = worksDefault } = defineProps<{ editable?: boolean, works?: Works }>()
+const { editable = false, lazy = false, works: immutableWorks = worksDefault } = defineProps<{ editable?: boolean, lazy?: boolean, works?: Works }>()
 const mutableWorks = ref<Works>(JSON.parse(JSON.stringify(immutableWorks)))
 const { history: undoableMutableWorks, undo, redo, canRedo, canUndo, undoStack, redoStack } = useRefHistory(mutableWorks, { deep: true, capacity: 20 })
 const works = computed(() => editable ? undoableMutableWorks.value[0].snapshot : immutableWorks)
@@ -159,11 +161,14 @@ onBeforeUnmount(() => {
   })
 })
 
-function truePath(index:number,path:string):string {
+function truePath(index: number, path: string): string {
   return index < immutableWorks.typesettings.length ? serverURL + path : path
 }
 
 function loading(index: number): 'lazy' | 'eager' {
+  if (lazy) {
+    return 'lazy'
+  }
   //从第六个作品开始实行懒加载
   if (index > 4) {
     return 'lazy'
@@ -282,57 +287,86 @@ function addTypeSettings() {
   fileTypesettingsRef.value.value = ''
 }
 
-async function submitWorksInfo() {
-  console.log(mutableWorks.value.videos);
-  
-  if (mutableWorks.value.videos.length == 0 && mutableWorks.value.typesettings.length == 0) {
-    ElMessage({
-      type: 'error',
-      message: '作品不能为空'
-    })
-    return
+function isWorksChanged(): boolean {
+  if (immutableWorks.videos.length === mutableWorks.value.videos.length && immutableWorks.typesettings.length === mutableWorks.value.typesettings.length) {
+    for (let i = 0; i < immutableWorks.videos.length; i++){      
+      if (immutableWorks.videos[i].id === mutableWorks.value.videos[i].id) {
+        continue
+      } else {
+        return true
+      }
+    }
+    for (let i = 0; i < immutableWorks.typesettings.length; i++) {
+      if (immutableWorks.typesettings[i].id === mutableWorks.value.typesettings[i].id) {
+        continue
+      } else {
+        return true
+      }
+    }
+    return false
+  } else {
+    return true
   }
-  if (!canUndo.value && !canRedo.value) {
+}
 
+//这种大、长任务可以考虑分解为多个小任务，给主线程让出执行时间
+async function submitWorksInfo() {
+  const loadingInstance = ElLoading.service()
+  if (!isWorksChanged()) {
+    loadingInstance.close()
+    return
   }
   const formData = new FormData()
   for (const video of mutableWorks.value.videos) {
-    const blob = await fetch(video.path).then(res => res.blob()).catch(err => console.log(err))
-    if (blob) {
-      const cover = new File([blob], 'file', { type: blob.type })
-      formData.append('videoCovers', cover)
-      formData.append('videoIDs', video.id)
-      formData.append('videoLinks', video.link)
-      formData.append('videoTitles', video.title)
+    //如果是本地添加的图片，前缀为blob，便转换为blob对象
+    if (video.path.slice(0, 4) === 'blob') {
+      const blob = await fetch(video.path).then(res => res.blob()).catch(err => console.log(err))
+      if (blob) {
+        const cover = new File([blob], 'file', { type: blob.type })
+        formData.append('videoCovers', cover)
+        formData.append('videoIDs', video.id)
+        formData.append('videoLinks', video.link)
+        formData.append('videoTitles', video.title)
+      }
+      //如果是之前就在服务器中的图片，前缀没有blob，就直接发送路径即可
+    } else {
+      formData.append('preVideoPaths', video.path)
+      formData.append('preVideoIDs', video.id)
+      formData.append('preVideoLinks', video.link)
+      formData.append('preVideoTitles', video.title)
     }
   }
   for (const typesetting of mutableWorks.value.typesettings) {
-    const blob = await fetch(typesetting.path).then(res => res.blob()).catch(err => console.log(err))
-    if (blob) {
-      const img = new File([blob], 'file', { type: blob.type })
-      formData.append('typesettingImgs', img)
-      formData.append('typesettingIDs', typesetting.id)
+    if (typesetting.path.slice(0, 4) === 'blob') {
+      const blob = await fetch(typesetting.path).then(res => res.blob()).catch(err => console.log(err))
+      if (blob) {
+        const img = new File([blob], 'file', { type: blob.type })
+        formData.append('typesettingImgs', img)
+        formData.append('typesettingIDs', typesetting.id)
+      }
+    } else {
+      formData.append('preTypesettingPaths', typesetting.path)
+      formData.append('preTypesettingIDs', typesetting.id)
     }
   }
-  let loadingInstance
   try {
-    loadingInstance = ElLoading.service()
     await reqSubmitWorksInfo(formData)
-    loadingInstance.close()
+    cancelEdit()
     await worksStore.getWorksInfo()
-    //当编辑成功后，会重新获取works数据，url不再被需要，所以也要清空url
-    createdURLs.forEach((url) => {
-      URL.revokeObjectURL(url)
-    })
-    createdURLs = []
+    //强制更新自身，否则父组件不会给子组件重新传入更新过的immutableWorks
+    emitter.emit('forceWorksCardUpdate')
     isEditing.value = false
     ElMessage({
       type: 'success',
       message: '编辑成功'
     })
-  } catch {
-    loadingInstance?.close()
+  } catch { 
+    ElMessage({
+      type: 'error',
+      message:'编辑失败'
+    })
   }
+  loadingInstance.close()
 }
 </script>
 

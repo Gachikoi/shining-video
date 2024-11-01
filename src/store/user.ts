@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { emitter } from "@/utils/emitter";
+import { reqUpdatePermission } from "@/api/user";
 
 export const useUserStore = defineStore('User', () => {
   const router = useRouter()
@@ -21,6 +22,7 @@ export const useUserStore = defineStore('User', () => {
     email.value = ''
     avatarPath.value = ''
     token.value = ''
+    id.value=''
     permission.value=false
     ElMessage({
       type: 'success',
@@ -30,7 +32,14 @@ export const useUserStore = defineStore('User', () => {
     emitter.emit('loginOut')
   }
 
-  return {isLogin,id,name,email,avatarPath,token,permission,loginOut}
+  async function updatePermission() {
+    try {
+      const { data } = await reqUpdatePermission()
+      permission.value=data
+    }catch{}
+  }
+
+  return {isLogin,id,name,email,avatarPath,token,permission,loginOut,updatePermission}
 }, {
   persist:true
 })
