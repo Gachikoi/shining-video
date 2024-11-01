@@ -7,8 +7,7 @@
               class="border-b-4 border-red-500 pb-2">关于</span><span>我们</span></h2>
           <p>晒你动漫社视频组官网旨在展示组内文化、作品、活动与历史。</p>
           <p>
-            我们希望为视频组成员提供一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个
-            一个一个一个</p>
+            ......</p>
         </div>
         <div class="pl-5 pr-5">
           <h2 class="mb-6 text-2xl font-mono font-bold"><span
@@ -18,8 +17,11 @@
         <div class="pl-5">
           <h2 class="mb-6 text-2xl font-mono font-bold"><span
               class="border-b-4 border-red-500 pb-2">联系</span><span>我们</span></h2>
-          <p>组长QQ：3181259291</p>
-          <p>站长QQ：1131997238</p>
+          <p class="text-pretty leading-relaxed">视频组相关请联系组长：</p>
+          <p class="text-pretty leading-relaxed">QQ：3181259291</p>
+          <p class="mt-2 text-pretty leading-relaxed">BUG反馈、网站相关请联系站长：</p>
+          <p class="text-pretty leading-relaxed">QQ：1131997238</p>
+          <p class="text-pretty leading-relaxed">邮箱：1131997238@qq.com</p>
         </div>
       </div>
       <div class="flex justify-center pt-0 md:pt-5 md:border-t ">
