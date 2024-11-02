@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col items-center gap-10">
-    <Carousel v-if="homeDataStore.carouselImages.length != 0" class="px-6 w-screen max-w-screen-xl"
+    <Carousel v-if="homeDataStore.carouselImages.length != 0" class="hidden md:block px-6 w-screen max-w-screen-xl"
       :images="homeDataStore.carouselImages" width="100%" border-radius="0" :shadow-image="true" aspect-ratio="2.5">
+    </Carousel>
+    <Carousel v-if="homeDataStore.carouselImages.length != 0" class="block md:hidden px-6 w-screen max-w-screen-xl"
+      :images="homeDataStore.carouselImages" width="100%" border-radius="0" :shadow-image="true" aspect-ratio="16/10">
     </Carousel>
     <div class="flex flex-col items-center w-screen max-w-screen-xl">
       <div class="flex justify-center w-screen max-w-screen-xl font-sans">
@@ -32,9 +35,9 @@
       </div>
       <div class="m-6 mb-0 columns-xs space-y-5 gap-x-5 *:shadow-md">
         <!-- a是行内块元素，默认无法在内部装下block元素，因此我们要讲a转换为block元素 -->
-         <!-- workscard中的a不用转换是因为父元素设置了flex，a已经是flex元素了 -->
-        <a class="block" v-for="image in homeDataStore.lastestTypesettings" :key="image.id" :href="serverURL + image.path"
-          target="_blank">
+        <!-- workscard中的a不用转换是因为父元素设置了flex，a已经是flex元素了 -->
+        <a class="block" v-for="image in homeDataStore.lastestTypesettings" :key="image.id"
+          :href="serverURL + image.path" target="_blank">
           <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
         </a>
       </div>

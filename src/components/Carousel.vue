@@ -1,6 +1,6 @@
 <template>
   <div class="carousel">
-    <div class="silder-container" @mouseover="stopAutoplay" @mouseleave="autoplay" @touchstart="stopAutoplay"
+    <div class="silder-container" ref="container" @mouseover="stopAutoplay" @mouseleave="autoplay" @touchstart="stopAutoplay"
       @touchend="autoplay" @touchcancel="autoplay">
       <div class="arrow">
         <div class="left" @mousedown="leftActive" @mouseup="leftDisacitive" @touchstart="leftActive"
@@ -10,7 +10,7 @@
           @touchend="rightDisacitive" @touchcancel="isRightAcitive = false" :class="{ active: isRightAcitive }">
         </div>
       </div>
-      <ul class="images">
+      <ul class="images" ref="imagesRef">
         <li>
           <a :href="images[images.length - 1].link" target="_blank"
             :class="{ 'hasLink': images[images.length - 1].link }">
@@ -49,32 +49,48 @@ const { images, width = '100%', borderRadius = '20px', shadowImage = true, aspec
 const isLeftAcitive = ref(false)
 const isRightAcitive = ref(false)
 const index = ref(0)
-let domImages: HTMLElement
-let domContainer: HTMLElement
 let timerAutoplay: number | null
 //由于我们要在按下左箭头时，右箭头也一起节流，所以我们无法使用封装好的throttle函数。
 //如果需要使用，请先将throttle()赋值给一个常量，在@事件被触发时调用这个常量，否则节流/防抖将不生效。
 let timerActive: number | null
 let timerDisactive: number | null
+const container = ref()
+const imagesRef = ref()
 
 //钩子函数
 onMounted(() => {
-  //开启自动播放
-  domImages = document.querySelector('.images') as HTMLElement
-  autoplay();
+  // //开启自动播放
+  // domImages = document.querySelector('.images') as HTMLElement
+  // autoplay();
 
-  //根据传入的参数自定义轮播图样式
-  const domCarousel = document.querySelector('.carousel') as HTMLElement
-  domContainer = document.querySelector('.silder-container') as HTMLElement
-  domContainer.style.borderRadius = borderRadius;
-  domContainer.style.aspectRatio = aspectRatio
-  domContainer.style.width = width
-  document.querySelectorAll('.images li').forEach((li) => {
+  // //根据传入的参数自定义轮播图样式
+  // const domCarousel = document.querySelector('.carousel') as HTMLElement
+  // domContainer = document.querySelector('.silder-container') as HTMLElement
+  // domContainer.style.borderRadius = borderRadius;
+  // domContainer.style.aspectRatio = aspectRatio
+  // domContainer.style.width = width
+  // document.querySelectorAll('.images li').forEach((li) => {
+  //   const item = li as HTMLElement
+  //   item.style.aspectRatio = aspectRatio
+  // });
+  // if (!shadowImage) {
+  //   document.querySelectorAll('.images img').forEach((img) => {
+  //     const item = img as HTMLElement
+  //     item.style.boxShadow = 'none'
+  //     item.style.objectFit = 'cover'
+  //     item.style.height = 'auto'
+  //   })
+  // }
+  autoplay()
+  container.value.style.borderRadius = borderRadius
+  container.value.style.aspectRatio = aspectRatio
+  container.value.style.width = width
+  imagesRef.value.querySelectorAll('li').forEach((li:any) => {
     const item = li as HTMLElement
     item.style.aspectRatio = aspectRatio
-  });
+  }) 
   if (!shadowImage) {
-    document.querySelectorAll('.images img').forEach((img) => {
+    imagesRef.value.querySelectorAll('img').forEach((img:any) => {
       const item = img as HTMLElement
       item.style.boxShadow = 'none'
       item.style.objectFit = 'cover'
@@ -106,16 +122,16 @@ function leftDisacitive() {
     isLeftAcitive.value = false
     //改变图片
     index.value--
-    domImages.style.transition = 'all 1s ease-in-out'
-    domImages.style.transform = `translate3d(-${(index.value + 1) * domContainer.offsetWidth}px,0,0)`
+    imagesRef.value.style.transition = 'all 1s ease-in-out'
+    imagesRef.value.style.transform = `translate3d(-${(index.value + 1) * container.value.offsetWidth}px,0,0)`
     //判断如果到了最前一张
     if (index.value == -1) {
       //初始化index=images.value.length-1
       index.value = images.length - 1
       //设置定时器把第一张变为最后一张
       setTimeout(() => {
-        domImages.style.transform = `translate3d(-${(index.value + 1) * domContainer.offsetWidth}px,0,0)`
-        domImages.style.transition = 'none'
+        imagesRef.value.style.transform = `translate3d(-${(index.value + 1) * container.value.offsetWidth}px,0,0)`
+        imagesRef.value.style.transition = 'none'
       }, 1000);//定时器时间设置为1000毫秒，与过渡时间相等
     }
     timerDisactive = setTimeout(() => {
@@ -129,16 +145,16 @@ function rightDisacitive() {
     isRightAcitive.value = false
     //改变图片
     index.value++
-    domImages.style.transition = 'all 1s ease-in-out'
-    domImages.style.transform = `translate3d(-${(index.value + 1) * domContainer.offsetWidth}px,0,0)`
+    imagesRef.value.style.transition = 'all 1s ease-in-out'
+    imagesRef.value.style.transform = `translate3d(-${(index.value + 1) * container.value.offsetWidth}px,0,0)`
     //判断如果到了最后一张
     if (index.value == images.length) {
       //初始化index=0
       index.value = 0
       //设置定时器把最后一张变为第一张
       setTimeout(() => {
-        domImages.style.transform = `translate3d(-${domContainer.offsetWidth}px,0,0)`
-        domImages.style.transition = 'none'
+        imagesRef.value.style.transform = `translate3d(-${container.value.offsetWidth}px,0,0)`
+        imagesRef.value.style.transition = 'none'
       }, 1000);//定时器时间设置为1000毫秒，与过渡时间相等（需要节流。因为如果两次点击在1000内，则会在被定时器内的回调函数的动画强制拽回index=0时的视图）
     }
     timerDisactive = setTimeout(() => {
@@ -150,16 +166,16 @@ function autoplay() {
   if (!timerAutoplay) {
     timerAutoplay = setInterval(() => {
       index.value++
-      domImages.style.transition = 'all 1s ease-in-out'
-      domImages.style.transform = `translate3d(-${(index.value + 1) * domContainer.offsetWidth}px,0,0)`
+      imagesRef.value.style.transition = 'all 1s ease-in-out'
+      imagesRef.value.style.transform = `translate3d(-${(index.value + 1) * container.value.offsetWidth}px,0,0)`
       //判断如果到了最后一张
       if (index.value == images.length) {
         //初始化index=0
         index.value = 0
         //设置定时器把最后一张变为第一张
         setTimeout(() => {
-          domImages.style.transform = `translate3d(-1200px,0,0)`
-          domImages.style.transition = 'none'
+          imagesRef.value.style.transform = `translate3d(-${container.value.offsetWidth}px,0,0)`
+          imagesRef.value.style.transition = 'none'
         }, 1000);//定时器时间设置为1000毫秒，与过渡时间相等（需要节流。因为如果两次点击在1000内，则会在被定时器内的回调函数的动画强制拽回index=0时的视图）
       }
     }, 3500)
