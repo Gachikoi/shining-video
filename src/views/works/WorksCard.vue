@@ -23,11 +23,12 @@
           class="overflow-x-auto w-full min-h-36 flex *:shrink-0 gap-5 p-5 snap-x *:snap-center sm:*:snap-start sm:*:scroll-ml-5">
           <a v-for="({ title, path, link, id }, index) in works.videos" :href="link" target="_blank" :key="id"
             class="relative w-56  hover:text-red-500 active:text-red-500 hover:-translate-y-1 transition-all ">
+            <!-- 这里根据条件来判断展示哪个img，但是如果用hidden的话，即使此卡片处于不可编辑状态，也会用path发送一个请求，浪费了http资源，而用vif就可以杜绝这种情况 -->
             <!-- 展示服务器数据图片 -->
-            <img :loading="loading(index)" :class="{ 'hidden': index >= immutableWorks.videos.length }"
-              class="rounded-xl mb-2" :src="serverURL + path" alt="">
+            <img :loading="loading(index)" v-if="!(index >= immutableWorks.videos.length)" class="rounded-xl mb-2"
+              :src="serverURL + path" alt="">
             <!-- 展示本地数据图片 -->
-            <img class="rounded-xl mb-2" :class="{ 'hidden': !editable || index < immutableWorks.videos.length }" :src="path" alt="">
+            <img class="rounded-xl mb-2" v-if="!(!editable || index < immutableWorks.videos.length)" :src="path" alt="">
             <p class="text-center text-pretty">{{ title }}</p>
             <!-- 删除按键 -->
             <svg @click="deleteVideo($event, id)" :class="{ 'hidden': !editable || !isEditing }"
@@ -77,12 +78,10 @@
           <a class="relative" v-for="({ path, id }, index) in works.typesettings" :href="truePath(index, path)"
             target="_blank" :key="id">
             <!-- 展示服务器数据中的图片 -->
-            <img :loading="loading(index)" class="h-full"
-              :class="{ 'hidden': index >= immutableWorks.typesettings.length }"
+            <img :loading="loading(index)" class="h-full" v-if="!(index >= immutableWorks.typesettings.length)"
               style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + path" alt="">
             <!-- 展示本地数据中的图片 -->
-            <img class="h-full" :class="{ 'hidden': !editable || index < immutableWorks.typesettings.length }"
-              :src="path" alt="">
+            <img class="h-full" v-if="!(!editable || index < immutableWorks.typesettings.length)" :src="path" alt="">
             <!-- 删除按键 -->
             <svg @click="deleteTypesetting($event, id)" :class="{ 'hidden': !editable || !isEditing }"
               class="absolute top-1 right-1 hover:-translate-y-0.5 transition-all" xmlns="http://www.w3.org/2000/svg"
@@ -289,7 +288,7 @@ function addTypeSettings() {
 
 function isWorksChanged(): boolean {
   if (immutableWorks.videos.length === mutableWorks.value.videos.length && immutableWorks.typesettings.length === mutableWorks.value.typesettings.length) {
-    for (let i = 0; i < immutableWorks.videos.length; i++){      
+    for (let i = 0; i < immutableWorks.videos.length; i++) {
       if (immutableWorks.videos[i].id === mutableWorks.value.videos[i].id) {
         continue
       } else {
@@ -360,10 +359,10 @@ async function submitWorksInfo() {
       type: 'success',
       message: '编辑成功'
     })
-  } catch { 
+  } catch {
     ElMessage({
       type: 'error',
-      message:'编辑失败'
+      message: '编辑失败'
     })
   }
   loadingInstance.close()
