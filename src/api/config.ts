@@ -1,1 +1,1 @@
-export const serverURL ='http://api.gach1koi.site'
+export const serverURL ='http://api.gach1koi.site:777'
