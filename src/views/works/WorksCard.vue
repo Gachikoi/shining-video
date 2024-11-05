@@ -78,10 +78,10 @@
           <a class="relative" v-for="({ path, id }, index) in works.typesettings" :href="truePath(index, path)"
             target="_blank" :key="id">
             <!-- 展示服务器数据中的图片 -->
-            <img :loading="loading(index)" class="h-full" v-if="!(index >= immutableWorks.typesettings.length)"
+            <img :loading="loading(index)" class="w-full sm:h-full sm:w-auto" v-if="!(index >= immutableWorks.typesettings.length)"
               style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + path" alt="">
             <!-- 展示本地数据中的图片 -->
-            <img class="h-full" v-if="!(!editable || index < immutableWorks.typesettings.length)" :src="path" alt="">
+            <img class="w-full sm:h-full sm:w-auto" v-if="!(!editable || index < immutableWorks.typesettings.length)" :src="path" alt="">
             <!-- 删除按键 -->
             <svg @click="deleteTypesetting($event, id)" :class="{ 'hidden': !editable || !isEditing }"
               class="absolute top-1 right-1 hover:-translate-y-0.5 transition-all" xmlns="http://www.w3.org/2000/svg"

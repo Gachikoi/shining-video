@@ -4,12 +4,20 @@
       <!-- top -->
       <div class="px-6 flex flex-col items-center w-screen max-w-screen-xl">
         <h1 class="pb-2 border-b-4 border-red-500">关于我们</h1>
-        <p class="max-w-screen-md m-6 mb-0 tracking-wider leading-loose text-justify">
+        <p class="mt-6 max-w-screen-md tracking-wider leading-relaxed mb-6 text-center text-pretty">
           晒你动漫社视频组官网旨在展示组内文化、作品、活动与历史。
         </p>
-        <p class="max-w-screen-md m-6 mt-0 tracking-wider leading-loose text-justify">
-          我们希望为视频组成员提供一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个一个
-          一个一个一个。
+        <p class="max-w-screen-md tracking-wider leading-relaxed mb-6 text-center text-pretty">
+          此网站于2024年10月12日开始开发，2024年11月2日开发完毕。
+        </p>
+        <p class="max-w-screen-md tracking-wider leading-relaxed mb-6 text-center text-pretty">项目前端仓库：<a
+            href="https://github.com/Gachikoi/shining-video" target="_blank"
+            class="underline">https://github.com/Gachikoi/shining-video</a></p>
+        <p class="max-w-screen-md tracking-wider leading-relaxed mb-6 text-center text-pretty">项目后端仓库：<a
+            href="https://github.com/Gachikoi/shining-video-server" target="_blank"
+            class="underline">https://github.com/Gachikoi/shining-video-server</a></p>
+        <p class="max-w-screen-md tracking-wider leading-relaxed mb-6 text-center text-pretty">
+          视频组相关请联系组长；BUG反馈、网站相关请联系站长。
         </p>
       </div>
       <!-- middle -->
@@ -18,7 +26,7 @@
         <!-- left -->
         <div class="basis-1/2 flex flex-col items-center">
           <h1 class=" text-center pb-2 border-b-4 border-red-500">
-            视频组官网于2024年建成并开始运营</h1>
+            视频组官网于2024年建成</h1>
           <div class="flex flex-col-reverse">
             <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.activeDuty" :key="id"
               :item="{ path, name, contact, title, bililink }"></MemberCard>
@@ -29,7 +37,7 @@
         <!-- right -->
         <div class="basis-1/2 flex flex-col items-center">
           <h1 class="text-center pb-2 border-b-4 border-red-500">
-            视频组于2017年成立并开始活动</h1>
+            视频组于2017年成立</h1>
           <div class="flex flex-wrap justify-center">
             <MemberCard v-for="{ id, path, name, contact, title, bililink } in membersStore.founder" :key="id"
               :item="{ path, name, contact, title, bililink }"></MemberCard>
