@@ -2,9 +2,10 @@
   <div class="flex justify-center">
     <div class="w-screen max-w-screen-xl space-y-10">
       <H1Container title="活动内容">
-        <p class="indent-8 max-w-screen-lg tracking-wider leading-loose text-justify">除了线上的群聊、企划外，我们还有许多线下活动。</p>
-        <p class="indent-8 max-w-screen-lg tracking-wider leading-loose text-justify">每周六14点，我们会在社团活动室进行部门活动，包括MAD教学、视频鉴赏、</p>
-        <p class="indent-8 max-w-screen-lg tracking-wider leading-loose text-justify">除了线上的群聊、企划外，我们还有许多线下活动。</p>
+        <div>
+          <p class="indent-8 max-w-screen-lg tracking-wider leading-loose text-justify">除了线上的聊天吹水外，我们还有许多企划与线下活动。</p>
+          <p class="indent-8 max-w-screen-lg tracking-wider leading-loose text-justify">每年的企划包括：晒你拜年祭、晒斯卡宣传、MEP等等，我们还会承担晒你纪等活动的直播与录制工作。线下活动包括每周的部门活动与可能会存在的晒你纪视频组摊位（?）。每周的部门活动包括：视频（MAD、MMD、PV等）鉴赏、各类教学（Pr、Ae、Blender、MAD、MMD、排版教学等）以及打牌、吃饭（雾）。</p>
+        </div>
       </H1Container>
       <H1Container title="活动影像">
         <ul class="columns-md space-y-5 gap-x-5 *:*:shadow-md">
