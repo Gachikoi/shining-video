@@ -313,7 +313,11 @@ async function submitWorksInfo() {
   const loadingInstance = ElLoading.service()
   if (!isWorksChanged()) {
     loadingInstance.close()
-    isEditing.value=false
+    isEditing.value = false
+    ElMessage({
+      type: 'success',
+      message: '编辑成功'
+    })
     return
   }
   const formData = new FormData()
