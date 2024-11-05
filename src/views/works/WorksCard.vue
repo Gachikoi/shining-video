@@ -354,7 +354,7 @@ async function submitWorksInfo() {
     cancelEdit()
     await worksStore.getWorksInfo()
     //强制更新自身，否则父组件不会给子组件重新传入更新过的immutableWorks
-    // emitter.emit('forceWorksCardUpdate')
+    emitter.emit('forceWorksCardUpdate')
     isEditing.value = false
     ElMessage({
       type: 'success',
