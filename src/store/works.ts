@@ -12,6 +12,7 @@ export const useWorksStore = defineStore('Works', () => {
       loadingInstance=ElLoading.service()
       const { data } = await reqGetWorksInfo()
       loadingInstance.close()
+      //ref的响应式是浅层的，但是这里改变了worksArr的地址，所以会触发响应式
       worksArr.value=data
     } catch {
       loadingInstance?.close()
