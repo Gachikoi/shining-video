@@ -17,8 +17,11 @@
         </div>
         <div class="pl-5 pr-5">
           <h2 class="mb-6 text-2xl font-mono font-bold"><span
-              class="border-b-4 border-red-500 pb-2">素材</span><span>引用</span></h2>
-          <a class="underline text-pretty leading-loose" target="_blank" href="https://icons8.com">Icons by Icons8</a>
+              class="border-b-4 border-red-500 pb-2">友情</span><span>链接</span></h2>
+          <a class="underline text-pretty leading-loose" target="_blank" href="https://madproducer.com/cn/">MAD
+            Producer - MAD综合信息平台</a><br>
+          <a class="underline text-pretty leading-loose mt-2" target="_blank" href="https://icons8.com">Icons by
+            Icons8</a>
         </div>
         <div class="pl-5">
           <h2 class="mb-6 text-2xl font-mono font-bold"><span

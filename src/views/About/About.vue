@@ -57,6 +57,16 @@
             :item="{ path, name, contact, title, bililink }" loading="lazy"></MemberCard>
         </div>
       </div>
+      <!-- link -->
+      <div class="px-6 flex flex-col flex-wrap items-center w-screen max-w-screen-xl space-y-5">
+        <h1 class="text-pretty pb-2 border-b-4 border-red-500">友情链接</h1>
+        <div class="flex flex-col items-center space-y-0">
+          <a class="underline text-pretty leading-loose" target="_blank" href="https://madproducer.com/cn/">MAD
+            Producer - MAD综合信息平台</a>
+          <a class="underline text-pretty leading-loose pt-2" target="_blank" href="https://icons8.com">Icons by
+            Icons8</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
