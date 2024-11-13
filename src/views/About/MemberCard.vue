@@ -2,7 +2,7 @@
   <a :href="item.bililink" target="_blank">
     <div class="overflow relative flex flex-col items-center sm:flex-row rounded-2xl p-5 hover:shadow-lg hover:-translate-y-1 transition-all space-x-0 sm:space-x-5 ">
       <div class="shrink-0">
-        <img :loading="loading" class="w-16 sm:w-24 lg:w-28 h-16 sm:h-24 lg:h-28 rounded-full"
+        <img width="64" height="64" :loading="loading" class="w-16 sm:w-24 lg:w-28 h-16 sm:h-24 lg:h-28 rounded-full"
           :src="serverURL + item.path" alt="">
       </div>
       <div class="flex flex-col justify-center items-center sm:items-start">

@@ -24,7 +24,7 @@
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 m-6 mb-0 hover:*:-translate-y-1 *:transition-all">
         <a class="space-y-2 hover:text-red-500 active:text-red-500"
           v-for="{ id, link, path, title } in homeDataStore.lastestVideos" :key="id" :href="link" target="_blank">
-          <img class="rounded-xl w-full" :src="serverURL + path">
+          <img width="224" height="126" class="rounded-xl w-full" :src="serverURL + path">
           <p class="text-center text-pretty line-clamp-2 tracking-wide">{{ title }}</p>
         </a>
       </div>
@@ -38,7 +38,7 @@
         <!-- workscard中的a不用转换是因为父元素设置了flex，a已经是flex元素了 -->
         <a class="block" v-for="image in homeDataStore.lastestTypesettings" :key="image.id"
           :href="serverURL + image.path" target="_blank">
-          <img loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
+          <img width="450" height="450" loading="lazy" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + image.path" alt="">
         </a>
       </div>
     </div>

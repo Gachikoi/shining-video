@@ -25,8 +25,8 @@
             class="relative w-56  hover:text-red-500 active:text-red-500 hover:-translate-y-1 transition-all ">
             <!-- 这里根据条件来判断展示哪个img，但是如果用hidden的话，即使此卡片处于不可编辑状态，也会用path发送一个请求，浪费了http资源，而用vif就可以杜绝这种情况 -->
             <!-- 展示服务器数据图片 -->
-            <img :loading="loading(index)" v-if="!(index >= immutableWorks.videos.length)" class="rounded-xl mb-2"
-              :src="serverURL + path" alt="">
+            <img width="224" height="126" :loading="loading(index)" v-if="!(index >= immutableWorks.videos.length)"
+              class="rounded-xl mb-2" :src="serverURL + path" alt="">
             <!-- 展示本地数据图片 -->
             <img class="rounded-xl mb-2" v-if="!(!editable || index < immutableWorks.videos.length)" :src="path" alt="">
             <p class="text-center text-pretty">{{ title }}</p>
@@ -78,10 +78,13 @@
           <a class="relative" v-for="({ path, id }, index) in works.typesettings" :href="truePath(index, path)"
             target="_blank" :key="id">
             <!-- 展示服务器数据中的图片 -->
-            <img :loading="loading(index)" class="w-full sm:h-full sm:w-auto" v-if="!(index >= immutableWorks.typesettings.length)"
-              style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);" :src="serverURL + path" alt="">
+            <!-- width,height属性是必须的，否则网速稍微慢一点，lazy img 就会进入视口，lazyloading就会失效。并且这也优化了CLS。 -->
+            <img width="600" height="300" :loading="loading(index)" class="w-full sm:h-full sm:w-auto"
+              v-if="!(index >= immutableWorks.typesettings.length)" style="box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);"
+              :src="serverURL + path" alt="">
             <!-- 展示本地数据中的图片 -->
-            <img class="w-full sm:h-full sm:w-auto" v-if="!(!editable || index < immutableWorks.typesettings.length)" :src="path" alt="">
+            <img class="w-full sm:h-full sm:w-auto" v-if="!(!editable || index < immutableWorks.typesettings.length)"
+              :src="path" alt="">
             <!-- 删除按键 -->
             <svg @click="deleteTypesetting($event, id)" :class="{ 'hidden': !editable || !isEditing }"
               class="absolute top-1 right-1 hover:-translate-y-0.5 transition-all" xmlns="http://www.w3.org/2000/svg"
