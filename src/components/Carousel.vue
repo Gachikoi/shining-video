@@ -1,7 +1,7 @@
 <template>
   <div class="carousel">
-    <div class="silder-container" ref="container" @mouseover="stopAutoplay" @mouseleave="autoplay" @touchstart="stopAutoplay"
-      @touchend="autoplay" @touchcancel="autoplay">
+    <div class="silder-container" ref="container" @mouseover="stopAutoplay" @mouseleave="autoplay"
+      @touchstart="stopAutoplay" @touchend="autoplay" @touchcancel="autoplay">
       <div class="arrow">
         <div class="left" @mousedown="leftActive" @mouseup="leftDisacitive" @touchstart="leftActive"
           @touchend="leftDisacitive" @touchcancel="isLeftAcitive = false" :class="{ active: isLeftAcitive }">
@@ -14,19 +14,20 @@
         <li>
           <a :href="images[images.length - 1].link" target="_blank"
             :class="{ 'hasLink': images[images.length - 1].link }">
-            <img :src="serverURL + images[images.length - 1].path" :alt="images[images.length - 1].alt">
+            <img width="600" height="300" :src="serverURL + images[images.length - 1].path"
+              :alt="images[images.length - 1].alt">
             <h1 :class="{ 'hidden': !images[images.length - 1].title }">{{ images[images.length - 1].title }}</h1>
           </a>
         </li>
         <li v-for="{ id, path, alt, link, title } in images" :key="id">
           <a :href="link" target="_blank" :class="{ 'hasLink': link }">
-            <img :src="serverURL + path" :alt="alt">
+            <img width="600" height="300" :src="serverURL + path" :alt="alt">
             <h1 :class="{ 'hidden': !title }">{{ title }}</h1>
           </a>
         </li>
         <li>
           <a :href="images[0].link" target="_blank" :class="{ 'hasLink': images[0].link }">
-            <img :src="serverURL + images[0].path" :alt="images[0].alt">
+            <img width="600" height="300" :src="serverURL + images[0].path" :alt="images[0].alt">
             <h1 :class="{ 'hidden': !images[0].title }">{{ images[0].title }}</h1>
           </a>
         </li>
@@ -262,6 +263,7 @@ function stopAutoplay() {
           }
 
           img {
+            width: auto;
             height: 100%;
             box-shadow: 0px 0px 2px 2px rgba($color: #00000047, $alpha: 0.1);
           }
