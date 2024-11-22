@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onActivated, onBeforeUnmount, onMounted, ref } from 'vue';
+import {  onBeforeUnmount, onMounted, ref } from 'vue';
 import { emitter } from '@/utils/emitter';
 import router from '@/router/router';
 
